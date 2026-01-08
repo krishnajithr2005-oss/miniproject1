@@ -9,13 +9,23 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/home");
+
+    if (username && password) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ username })
+      );
+      navigate("/home");
+    } else {
+      alert("Please enter username and password");
+    }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h3>Login</h3>
+    <div className="login-bg">
+      <div className="glass-card">
+        <h1 className="title">NATURAL DISASTER</h1>
+        <h2 className="subtitle">RISK ANALYZER</h2>
 
         <form onSubmit={handleLogin}>
           <input
@@ -23,7 +33,6 @@ const Login = () => {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
           />
 
           <input
@@ -31,15 +40,16 @@ const Login = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
 
-          <button type="submit">Login</button>
+          <button type="submit" className="login-btn">
+            LOGIN
+          </button>
         </form>
 
-        <div className="links">
-          <p onClick={() => navigate("/forgot")}>Forgot Password?</p>
-          <p onClick={() => navigate("/signup")}>New user? Sign Up</p>
+        <div className="login-links">
+          <span onClick={() => navigate("/signup")}>Sign Up</span>
+          <span onClick={() => navigate("/forgot")}>Forgot Password?</span>
         </div>
       </div>
     </div>

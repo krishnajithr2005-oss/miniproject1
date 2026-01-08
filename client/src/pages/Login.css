@@ -1,58 +1,70 @@
-.login-container {
-  min-height: 100vh;
-  background-image: url("../assets/bg.jpg");
-  background-size: cover;
-  background-position: center;
+.login-bg {
+  height: 100vh;
+  width: 100%;
+  background: url("../assets/bg.jpg") no-repeat center center/cover;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-family: Arial, sans-serif;
+  justify-content: center;
 }
 
-.login-box {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 30px 40px;
-  border-radius: 10px;
-  width: 320px;
+.glass-card {
+  width: 380px;
+  padding: 40px 30px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  color: #fff;
 }
 
-.login-box h3 {
-  margin-bottom: 20px;
+.title {
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
 }
 
-.login-box input {
+.subtitle {
+  font-size: 16px;
+  margin-bottom: 25px;
+  font-weight: 300;
+}
+
+.glass-card input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
-.login-box button {
+.glass-card input::placeholder {
+  color: #ddd;
+}
+
+.login-btn {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #2e7d32;
-  color: white;
+  padding: 12px;
+  margin-top: 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: #000;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.login-box button:hover {
-  background: #1b5e20;
-}
-
-.links {
-  margin-top: 15px;
+.login-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
   font-size: 14px;
 }
 
-.links p {
-  margin: 5px;
-  color: #1b5e20;
+.login-links span {
   cursor: pointer;
-  font-weight: bold;
+  color: #9be7ff;
 }
