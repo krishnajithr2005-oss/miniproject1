@@ -1,0 +1,21 @@
+.dams-page {
+  background: #020617;
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dam-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.dam {
+  padding: 20px;
+  border-radius: 14px;
+  font-weight: bold;
+}
+
+.blue { background: #1d4ed8; }
+.orange { background: #f97316; }

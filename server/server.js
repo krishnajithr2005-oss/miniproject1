@@ -1,25 +1,104 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+// Import Models
+const Place = require("./models/Place");
+const Alert = require("./models/Alert");
+const Shelter = require("./models/Shelter");
+const Resource = require("./models/Resource");
+const History = require("./models/History");
+const RiskZone = require("./models/RiskZone");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-let disasters = [
-  { id: 1, type: "Flood", location: "Alappuzha", severity: "High" }
-];
+// 🔹 MONGODB CONNECTION
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => console.log("❌ MongoDB error:", err));
 
-app.get("/api/disasters", (req, res) => {
-  res.json(disasters);
+// 🔹 API: GET place details with alerts, shelters, resources
+app.get("/api/analyze", async (req, res) => {
+  try {
+    const placeName = req.query.place;
+
+    if (!placeName) {
+      return res.status(400).json({ error: "Place is required" });
+    }
+
+    // Get place details
+    const place = await Place.findOne({ name: placeName });
+    if (!place) {
+      return res.status(404).json({ error: "Place not found" });
+    }
+
+    // Get alerts for this place
+    const alerts = await Alert.find({ placeName });
+
+    // Get shelters for this place
+    const shelters = await Shelter.find({ placeName });
+
+    // Get resources for this place
+    const resources = await Resource.find({ placeName });
+
+    // Get risk zones for this place
+    const riskZones = await RiskZone.find({ placeName });
+
+    res.json({
+      place: place.name,
+      district: place.district,
+      coordinates: [place.coordinates.latitude, place.coordinates.longitude],
+      risk: {
+        score: place.riskScore,
+        level: place.riskLevel,
+        color: place.riskColor,
+      },
+      activeLayers: place.activeLayers,
+      alerts: alerts.map((a) => a.title),
+      shelters: shelters.map((s) => ({
+        name: s.name,
+        capacity: s.capacity,
+        location: s.location,
+      })),
+      resources: resources.map((r) => ({
+        name: r.name,
+        type: r.type,
+        contact: r.contact,
+      })),
+      riskZones: riskZones,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-app.post("/api/disasters", (req, res) => {
-  const d = { id: disasters.length + 1, ...req.body };
-  disasters.push(d);
-  res.json(d);
+/**
+ * 🔹 EXISTING POST ROUTE (KEEP IT)
+ * Used later for AI / ML / form-based analysis
+ */
+app.post("/analyze", (req, res) => {
+  const { district, state, disaster } = req.body;
+
+  const riskLevels = ["LOW", "MEDIUM", "HIGH"];
+  const riskLevel = riskLevels[Math.floor(Math.random() * 3)];
+  const riskScore =
+    riskLevel === "HIGH" ? 8 :
+    riskLevel === "MEDIUM" ? 5 : 2;
+
+  res.json({
+    district,
+    state,
+    disaster,
+    riskLevel,
+    riskScore
+  });
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("Backend running on port " + PORT);
+  console.log("🚀 Backend running on port " + PORT);
 });

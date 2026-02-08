@@ -1,0 +1,107 @@
+/* ═══ FLOATING SOS BUTTON ═══ */
+.sos-floating-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border: none;
+  color: white;
+  font-weight: 800;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 4px;
+}
+
+.sos-floating-btn:not(:disabled):hover {
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 0 12px 40px rgba(239, 68, 68, 0.5);
+}
+
+.sos-floating-btn:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.sos-floating-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sos-floating-btn .sos-icon {
+  font-size: 28px;
+  line-height: 1;
+  animation: sosIconPulse 2s infinite;
+}
+
+@keyframes sosIconPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.sos-floating-btn .sos-text {
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.sos-floating-btn .pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(239, 68, 68, 0.5);
+  animation: sosRingPulse 2s infinite;
+}
+
+@keyframes sosRingPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sos-floating-btn {
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+  }
+
+  .sos-floating-btn .sos-icon {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sos-floating-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 11px;
+  }
+
+  .sos-floating-btn .sos-icon {
+    font-size: 22px;
+  }
+}

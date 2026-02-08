@@ -1,137 +1,766 @@
-import React, { useEffect, useState } from "react";
+/*
+PROJECT CONTEXT:
+This is a React frontend for a Natural Disaster Risk Analyzer (Suraksha Keralam 2.0).
+Tech stack: React (Vite or CRA), CSS modules, no backend yet (demo mode).
+
+GOAL:
+Enhance the Home page with realistic demo functionality using mock data,
+structured so that it can later be replaced by a real database/API.
+
+REQUIREMENTS:
+
+1. SEARCH BAR WITH AUTOCOMPLETE
+- Create a search input for districts/places in Kerala.
+- Show dropdown suggestions while typing (case-insensitive).
+- Suggestions must come from a local array in src/data/places.js.
+- On selecting a place:
+  - Close dropdown
+  - Load demo data for that place
+  - Update all UI sections below
+
+2. DEMO DATA HANDLING
+- Import getPlaceData(place) from src/services/dataService.js
+- Demo data includes:
+  - historical disaster data (floods, landslides, cyclones, earthquakes)
+  - current safety alerts
+  - risk score (0–100) and risk level (LOW/MODERATE/HIGH)
+  - shelter count
+  - helpline numbers
+  - SOS availability
+  - map coordinates (lat, lng)
+
+3. ACTIVE LAYERS PANEL
+- Show buttons/toggles for:
+  - Historical Data
+  - Flood Zones
+  - Landslide Zones
+- Enable layers only after a place is selected
+- Maintain active layer state (boolean)
+
+4. MAP SECTION (PLACEHOLDER)
+- Use a div placeholder (no real map yet)
+- When place is selected:
+  - Display "Viewing risk map for <PLACE>"
+  - Display coordinates from demo data
+- Structure code so real map (Leaflet/Mapbox) can be added later
+
+5. SAFETY ALERTS PANEL
+- Show:
+  - "No active alerts" if none
+  - List of alerts if available
+- Highlight alerts in warning colors
+
+6. RISK LEVEL & SCORE
+- Display risk score numerically
+- Display risk level badge
+- Color code:
+  - LOW → green
+  - MODERATE → yellow
+  - HIGH → red
+
+7. RESCUE & EMERGENCY RESOURCES
+- Show:
+  - Number of rescue teams
+  - Medical units
+  - Emergency helpline numbers
+- Add a visible SOS button
+- Disable SOS if sosAvailable is false
+
+8. SHELTER AVAILABILITY
+- Display number of available shelters
+- Placeholder text: "Nearest shelters will be shown here"
+
+9. STATE MANAGEMENT
+- Use React useState and useEffect
+- States required:
+  - searchQuery
+  - suggestions
+  - selectedPlace
+  - placeData
+  - activeLayers
+
+10. UX RULES
+- Show empty placeholders before search
+- Do not crash if data is null
+- Keep logic clean and modular
+- Comment code clearly for future backend integration
+
+OUTPUT EXPECTATION:
+- Generate complete Home.jsx logic
+- Minimal JSX styling hooks (className only)
+- No external APIs
+- Ready for database integration later
+
+Start implementing now.
+*/
+
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { locations } from "../data/locations";
-import RiskMap from "../components/RiskMap";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import { getPlaceData } from "../services/dataService";
+import { PLACES } from "../data/places";
+import SOSButton from "../components/SOSButton";
+import SOSModal from "../components/SOSModal";
 import "./Home.css";
+
+// Fix leaflet default marker icons
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+});
 
 const Home = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const searchInputRef = useRef(null);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
-  // INPUT STATES
-  const [district, setDistrict] = useState("");
-  const [stateName, setStateName] = useState("");
-  const [disaster, setDisaster] = useState("Flood");
+  // 🔍 SEARCH & AUTOCOMPLETE
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // RESULT STATES
-  const [riskLevel, setRiskLevel] = useState(null);
-  const [riskScore, setRiskScore] = useState(null);
-  const [mapPosition, setMapPosition] = useState(null);
+  // 📍 SELECTED PLACE & DATA
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [placeData, setPlaceData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!user) navigate("/login");
-  }, [user, navigate]);
+  // 🎛️ ACTIVE LAYERS
+  const [activeLayers, setActiveLayers] = useState({
+    historicalData: false,
+    floodZones: false,
+    landslideZones: false,
+    damLocations: false,
+  });
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
+  // 🆘 SOS MODAL STATE
+  const [showSOSModal, setShowSOSModal] = useState(false);
+  const [isSOSOpen, setIsSOSOpen] = useState(false);
+
+  // 🎨 UI STATE
+  const [language, setLanguage] = useState("EN");
+  const [liteMode, setLiteMode] = useState(false);
+
+  // 🔍 AUTOCOMPLETE: Filter suggestions
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    setHighlightedIndex(-1);
+
+    if (query.trim().length > 0) {
+      const filtered = PLACES.filter((place) =>
+        place.toLowerCase().includes(query.toLowerCase())
+      );
+      setSuggestions(filtered.slice(0, 8)); // Limit to 8 suggestions
+      setShowSuggestions(true);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
   };
 
-  // ✅ BACKEND CONNECTED ANALYSIS
-  const runAnalysis = async () => {
-    if (!district || !stateName) {
-      alert("Please enter District and State");
-      return;
-    }
+  // ⌨️ KEYBOARD NAVIGATION
+  const handleSearchKeyDown = (e) => {
+    if (!showSuggestions) return;
 
-    const loc = locations[district.toLowerCase()];
-    if (!loc) {
-      alert("Location not found in database");
-      return;
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : 0
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : suggestions.length - 1
+        );
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (highlightedIndex >= 0) {
+          handleSelectPlace(suggestions[highlightedIndex]);
+        } else if (suggestions.length > 0) {
+          handleSelectPlace(suggestions[0]);
+        } else if (searchQuery.trim()) {
+          handleSelectPlace(searchQuery.trim());
+        }
+        break;
+      case "Escape":
+        setShowSuggestions(false);
+        break;
+      default:
+        break;
     }
+  };
+
+  // ✅ SELECT SUGGESTION: Load data
+  const handleSelectPlace = async (place) => {
+    setSearchQuery(place);
+    setShowSuggestions(false);
+    setSelectedPlace(place);
+    setLoading(true);
+    setHighlightedIndex(-1);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/analyze", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          district: district,
-          state: stateName,
-          disaster: disaster,
-        }),
-      });
+      // 🔄 Fetch demo data
+      const data = getPlaceData(place);
 
-      const data = await response.json();
-
-      setRiskLevel(data.riskLevel);
-      setRiskScore(data.riskScore);
-      setMapPosition([loc.lat, loc.lng]);
-    } catch (error) {
-      console.error(error);
-      alert("Backend not reachable");
+      if (data) {
+        setPlaceData(data);
+        // Reset layers
+        setActiveLayers({
+          historicalData: false,
+          floodZones: false,
+          landslideZones: false,
+          damLocations: false,
+        });
+      } else {
+        alert("No data found for this location");
+        setPlaceData(null);
+        setSelectedPlace(null);
+      }
+    } catch (err) {
+      console.error("Error loading place data:", err);
+      alert("Failed to load location data");
+      setPlaceData(null);
+      setSelectedPlace(null);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  // ❌ CLOSE SUGGESTIONS ON OUTSIDE CLICK
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(e.target)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // 🎛️ TOGGLE LAYER
+  const toggleLayer = (layerName) => {
+    setActiveLayers((prev) => ({
+      ...prev,
+      [layerName]: !prev[layerName],
+    }));
+  };
+
+  // 🆘 SOS HANDLER
+  const handleSOS = () => {
+    if (placeData?.resources?.sosAvailable !== false) {
+      setShowSOSModal(true);
+    }
+  };
+
+  // 🎨 RISK COLOR & STYLING
+  const getRiskColor = (riskLevel) => {
+    const colorMap = {
+      LOW: { bg: "#10b981", text: "#ffffff" },
+      MODERATE: { bg: "#f59e0b", text: "#ffffff" },
+      HIGH: { bg: "#ef4444", text: "#ffffff" },
+    };
+    return colorMap[riskLevel] || { bg: "#6b7280", text: "#ffffff" };
+  };
+
+  const getSeverityBadge = (severity) => {
+    const badgeMap = {
+      LOW: { bg: "#d1fae5", color: "#065f46", label: "🟢 Low" },
+      MEDIUM: { bg: "#fef3c7", color: "#92400e", label: "🟡 Medium" },
+      HIGH: { bg: "#fee2e2", color: "#991b1b", label: "🔴 High" },
+    };
+    return badgeMap[severity] || badgeMap.LOW;
   };
 
   return (
     <div className="dashboard">
-      {/* TOP BAR */}
-      <header className="topbar">
-        <h2>RISK ANALYZER</h2>
-        <button onClick={handleLogout}>Logout</button>
-      </header>
+      {/* SOS BUTTON - Must be first in render */}
+      <SOSButton
+        onClick={() => {
+          if (placeData) {
+            setIsSOSOpen(true);
+          } else {
+            alert("Please search a location first to use SOS");
+          }
+        }}
+        disabled={!placeData}
+      />
 
-      <div className="main">
-        {/* LEFT PANEL */}
+      {/* SOS MODAL */}
+      <SOSModal
+        isOpen={isSOSOpen}
+        onClose={() => setIsSOSOpen(false)}
+        selectedPlace={selectedPlace}
+        placeData={placeData}
+      />
+
+      {/* ═══ TOP BAR ═══ */}
+      <div className="topbar">
+        <div className="title-section">
+          <h1 className="title">🛡️ SURAKSHA KERALAM 2.0</h1>
+          <p className="subtitle">Natural Disaster Risk Analyzer</p>
+        </div>
+
+        <div className="status-section">
+          <div className="status-badge online">
+            <span className="dot"></span>
+            System Status: Optimal
+          </div>
+        </div>
+
+        <div className="top-actions">
+          <button
+            className="lang-btn"
+            onClick={() => setLanguage(language === "EN" ? "ML" : "EN")}
+            title="Toggle Language"
+          >
+            {language === "EN" ? "English" : "മലയാളം"}
+          </button>
+
+          <div
+            className={`toggle-mode ${liteMode ? "lite" : "full"}`}
+            onClick={() => setLiteMode(!liteMode)}
+          >
+            <span>{liteMode ? "LITE MODE" : "FULL MODE"}</span>
+            <div className="switch">{liteMode ? "📡 2G" : "🚀 5G"}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══ SEARCH BAR WITH AUTOCOMPLETE ═══ */}
+      <div className="search-wrapper">
+        <div className="search-container" ref={searchInputRef}>
+          <div className="search-bar">
+            <span className="search-icon">🔍</span>
+            <input
+              type="text"
+              value={searchQuery}
+              placeholder="Search district or place (e.g., Idukki, Wayanad)..."
+              onChange={handleSearchChange}
+              onKeyDown={handleSearchKeyDown}
+              onFocus={() => searchQuery && setShowSuggestions(true)}
+              className="search-input"
+              autoComplete="off"
+            />
+            {searchQuery && (
+              <button
+                className="clear-btn"
+                onClick={() => {
+                  setSearchQuery("");
+                  setSuggestions([]);
+                  setShowSuggestions(false);
+                }}
+              >
+                ✕
+              </button>
+            )}
+            <button
+              className="search-btn"
+              onClick={() =>
+                searchQuery && handleSelectPlace(searchQuery.trim())
+              }
+              disabled={loading}
+            >
+              {loading ? "⏳ Loading..." : "Search"}
+            </button>
+          </div>
+
+          {/* 🔽 AUTOCOMPLETE DROPDOWN */}
+          {showSuggestions && suggestions.length > 0 && (
+            <div className="suggestions-dropdown">
+              {suggestions.map((place, idx) => (
+                <div
+                  key={idx}
+                  className={`suggestion-item ${
+                    idx === highlightedIndex ? "highlighted" : ""
+                  }`}
+                  onClick={() => handleSelectPlace(place)}
+                  onMouseEnter={() => setHighlightedIndex(idx)}
+                >
+                  <span className="icon">📍</span>
+                  <span className="text">{place}</span>
+                  <span className="arrow">→</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {showSuggestions &&
+            searchQuery &&
+            suggestions.length === 0 && (
+              <div className="suggestions-dropdown no-results">
+                <p>No results found for "{searchQuery}"</p>
+              </div>
+            )}
+        </div>
+      </div>
+
+      {/* ═══ MAIN CONTENT ═══ */}
+      <div className="content">
+        {/* LEFT PANEL: ACTIVE LAYERS */}
         <div className="panel left">
-          <h3>Analyze Area</h3>
+          <div className="panel-header">
+            <h3>🎛️ Active Layers</h3>
+            {selectedPlace && (
+              <span className="selected-badge">{selectedPlace}</span>
+            )}
+          </div>
 
-          <input
-            type="text"
-            placeholder="District"
-            value={district}
-            onChange={(e) => setDistrict(e.target.value)}
-          />
+          {selectedPlace ? (
+            <div className="layers-group">
+              <label className="layer-toggle">
+                <input
+                  type="checkbox"
+                  checked={activeLayers.historicalData}
+                  onChange={() => toggleLayer("historicalData")}
+                />
+                <span className="toggle-label">
+                  <span className="icon">📊</span>
+                  <span>Historical Data</span>
+                </span>
+                {activeLayers.historicalData && (
+                  <span className="active-badge">Active</span>
+                )}
+              </label>
 
-          <input
-            type="text"
-            placeholder="State"
-            value={stateName}
-            onChange={(e) => setStateName(e.target.value)}
-          />
+              <label className="layer-toggle">
+                <input
+                  type="checkbox"
+                  checked={activeLayers.floodZones}
+                  onChange={() => toggleLayer("floodZones")}
+                />
+                <span className="toggle-label">
+                  <span className="icon">💧</span>
+                  <span>Flood Zones</span>
+                </span>
+                {activeLayers.floodZones && (
+                  <span className="active-badge">Active</span>
+                )}
+              </label>
 
-          <select value={disaster} onChange={(e) => setDisaster(e.target.value)}>
-            <option>Flood</option>
-            <option>Earthquake</option>
-            <option>Cyclone</option>
-            <option>Landslide</option>
-          </select>
+              <label className="layer-toggle">
+                <input
+                  type="checkbox"
+                  checked={activeLayers.landslideZones}
+                  onChange={() => toggleLayer("landslideZones")}
+                />
+                <span className="toggle-label">
+                  <span className="icon">⛰️</span>
+                  <span>Landslide Zones</span>
+                </span>
+                {activeLayers.landslideZones && (
+                  <span className="active-badge">Active</span>
+                )}
+              </label>
 
-          <button onClick={runAnalysis}>Run Analysis</button>
-        </div>
+              <label className="layer-toggle">
+                <input
+                  type="checkbox"
+                  checked={activeLayers.damLocations}
+                  onChange={() => toggleLayer("damLocations")}
+                />
+                <span className="toggle-label">
+                  <span className="icon">🏗️</span>
+                  <span>Dam Locations</span>
+                </span>
+                {activeLayers.damLocations && (
+                  <span className="active-badge">Active</span>
+                )}
+              </label>
 
-        {/* CENTER PANEL */}
-        <div className="panel center">
-          <h3>Risk Map</h3>
-          <RiskMap
-            position={mapPosition}
-            riskLevel={riskLevel}
-            district={district}
-          />
-        </div>
+              <hr />
 
-        {/* RIGHT PANEL */}
-        <div className="panel right">
-          <h3>Area Risk Information</h3>
-
-          {riskLevel ? (
-            <>
-              <p><strong>District:</strong> {district}</p>
-              <p><strong>State:</strong> {stateName}</p>
-              <p><strong>Disaster:</strong> {disaster}</p>
-
-              <p>
-                <strong>Risk Level:</strong>{" "}
-                {riskLevel === "HIGH" && "🔴 High"}
-                {riskLevel === "MEDIUM" && "🟡 Medium"}
-                {riskLevel === "LOW" && "🟢 Low"}
-              </p>
-
-              <p><strong>Risk Score:</strong> {riskScore} / 10</p>
-            </>
+              {placeData && (
+                <div className="layers-summary">
+                  <h4>Quick Stats</h4>
+                  <div className="stat-item">
+                    <span>🚒 Rescue Teams:</span>
+                    <strong>{placeData.resources.rescueTeams}</strong>
+                  </div>
+                  <div className="stat-item">
+                    <span>🏥 Medical Units:</span>
+                    <strong>{placeData.resources.medicalUnits}</strong>
+                  </div>
+                  <div className="stat-item">
+                    <span>🏠 Shelters:</span>
+                    <strong>{placeData.shelters.length}</strong>
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
-            <p>Select an area and click Run Analysis</p>
+            <p className="placeholder-text">
+              🔍 Search a location to activate layers
+            </p>
+          )}
+
+          <button
+            className="history-btn"
+            onClick={() =>
+              navigate("/history", { state: { selectedPlace, placeData } })
+            }
+          >
+            📜 View Full History
+          </button>
+        </div>
+
+        {/* CENTER PANEL: MAP */}
+        <div className="panel map-panel">
+          {placeData ? (
+            <div className="map-wrapper">
+              <div className="map-header">
+                <h4>Risk Map - {selectedPlace}</h4>
+                <p className="coordinates">
+                  📍 Lat: {placeData.coordinates.lat.toFixed(4)}, Lng:{" "}
+                  {placeData.coordinates.lng.toFixed(4)}
+                </p>
+              </div>
+              <MapContainer
+                center={[
+                  placeData.coordinates.lat,
+                  placeData.coordinates.lng,
+                ]}
+                zoom={11}
+                scrollWheelZoom={true}
+                className="leaflet-map"
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker
+                  position={[
+                    placeData.coordinates.lat,
+                    placeData.coordinates.lng,
+                  ]}
+                >
+                  <Popup>
+                    <div className="popup-content">
+                      <strong>{selectedPlace}</strong>
+                      <p>Risk Level: {placeData.riskLevel}</p>
+                      <p>Risk Score: {placeData.riskScore}/100</p>
+                    </div>
+                  </Popup>
+                </Marker>
+              </MapContainer>
+
+              {/* LAYER INDICATORS ON MAP */}
+              <div className="map-layers-indicator">
+                {activeLayers.historicalData && (
+                  <div className="layer-badge historical">📊 Historical</div>
+                )}
+                {activeLayers.floodZones && (
+                  <div className="layer-badge flood">💧 Flood</div>
+                )}
+                {activeLayers.landslideZones && (
+                  <div className="layer-badge landslide">⛰️ Landslide</div>
+                )}
+                {activeLayers.damLocations && (
+                  <div className="layer-badge dam">🏗️ Dams</div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="map-placeholder">
+              <span className="hotspot">🔴 HOTSPOT MAP</span>
+              <p>Search a location to view interactive risk map</p>
+              <p className="hint">
+                Use keyboard navigation (Arrow keys + Enter) in search
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT PANEL: SAFETY ALERTS */}
+        <div className="panel alert-panel">
+          <h3>⚠️ Safety Alerts</h3>
+
+          {placeData && placeData.alerts.length > 0 ? (
+            <div className="alerts-list">
+              {placeData.alerts.map((alert, idx) => {
+                const severity = alert.severity || "MEDIUM";
+                const badge = getSeverityBadge(severity);
+                return (
+                  <div key={idx} className="alert-item">
+                    <div
+                      className="alert-severity"
+                      style={{ backgroundColor: badge.bg, color: badge.color }}
+                    >
+                      {badge.label}
+                    </div>
+                    <div className="alert-content">
+                      <p className="alert-message">{alert.message}</p>
+                      <p className="alert-time">
+                        📅 {alert.timestamp || "Just now"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="no-alerts">
+              <span className="icon">✅</span>
+              <p>All Clear - No active alerts</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ═══ BOTTOM CARDS ═══ */}
+      <div className="bottom-cards">
+        {/* RISK LEVEL CARD */}
+        <div className="card risk-card">
+          <h4>📊 Risk Level Assessment</h4>
+
+          {placeData ? (
+            <div className="risk-content">
+              <div
+                className="risk-level-badge"
+                style={getRiskColor(placeData.riskLevel)}
+              >
+                {placeData.riskLevel}
+              </div>
+
+              <div className="risk-bar-wrapper">
+                <div className="risk-bar">
+                  <div
+                    className={`risk-progress ${placeData.riskLevel.toLowerCase()}`}
+                    style={{ width: `${placeData.riskScore}%` }}
+                  ></div>
+                </div>
+                <p className="risk-score-text">
+                  Score: <strong>{placeData.riskScore}/100</strong>
+                </p>
+              </div>
+
+              <p className="risk-recommendation">
+                {placeData.riskLevel === "HIGH"
+                  ? "⚠️ High risk zone - Stay alert and follow authority guidelines"
+                  : placeData.riskLevel === "MODERATE"
+                    ? "⚡ Moderate risk - Prepare emergency kit and know evacuation routes"
+                    : "✅ Low risk zone - Regular safety checks recommended"}
+              </p>
+            </div>
+          ) : (
+            <p className="placeholder-text">—</p>
+          )}
+        </div>
+
+        {/* EMERGENCY RESOURCES */}
+        <div className="card resources-card">
+          <h4>🚨 Emergency Resources</h4>
+
+          {placeData && placeData.resources ? (
+            <div className="resources-content">
+              <div className="resource-box">
+                <span className="resource-icon">🚒</span>
+                <div className="resource-info">
+                  <p className="resource-label">Rescue Teams</p>
+                  <p className="resource-value">
+                    {placeData.resources.rescueTeams || "N/A"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="resource-box">
+                <span className="resource-icon">🏥</span>
+                <div className="resource-info">
+                  <p className="resource-label">Medical Units</p>
+                  <p className="resource-value">
+                    {placeData.resources.medicalUnits || "N/A"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="helpline-section">
+                <p className="helpline-title">📞 Emergency Helplines</p>
+                <div className="helpline-list">
+                  {placeData.resources.helplines &&
+                  placeData.resources.helplines.length > 0 ? (
+                    placeData.resources.helplines.map((num, idx) => (
+                      <a
+                        key={idx}
+                        href={`tel:${num}`}
+                        className="helpline-btn"
+                        title={`Call ${num}`}
+                      >
+                        <span className="icon">📱</span>
+                        <span className="number">{num}</span>
+                        <span className="call-icon">→</span>
+                      </a>
+                    ))
+                  ) : (
+                    <p className="placeholder-text">No helplines available</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <p className="placeholder-text">
+              Search a location to view resources
+            </p>
+          )}
+        </div>
+
+        {/* SHELTER AVAILABILITY */}
+        <div className="card shelter-card">
+          <h4>🏠 Shelter Availability</h4>
+
+          {placeData && placeData.shelters ? (
+            <div className="shelter-content">
+              <div className="shelter-count-box">
+                <span className="count">{placeData.shelters.length || 0}</span>
+                <span className="text">shelters available</span>
+              </div>
+
+              {placeData.shelters && placeData.shelters.length > 0 ? (
+                <div className="shelters-list">
+                  {placeData.shelters.map((shelter, idx) => (
+                    <div key={idx} className="shelter-item">
+                      <div className="shelter-header">
+                        <p className="shelter-name">
+                          <strong>{shelter.name}</strong>
+                        </p>
+                        <span
+                          className={`capacity-badge ${
+                            parseInt(shelter.capacity) < 50 ? "low" : "ok"
+                          }`}
+                        >
+                          {shelter.capacity}%
+                        </span>
+                      </div>
+                      <div className="capacity-bar">
+                        <div
+                          className="capacity-fill"
+                          style={{ width: shelter.capacity }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="placeholder-text">
+                  Nearest shelters will be shown here
+                </p>
+              )}
+            </div>
+          ) : (
+            <p className="placeholder-text">
+              Nearest shelters will be shown here
+            </p>
           )}
         </div>
       </div>

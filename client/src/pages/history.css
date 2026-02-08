@@ -1,0 +1,20 @@
+.history-page {
+  background: #020617;
+  color: #e5e7eb;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.history-list {
+  margin-top: 30px;
+  list-style: none;
+  padding: 0;
+}
+
+.history-list li {
+  background: #020617;
+  border: 1px solid #1e293b;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
