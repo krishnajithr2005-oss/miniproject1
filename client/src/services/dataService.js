@@ -187,6 +187,287 @@ export const getPlaceData = (placeName) => {
       shelterCount: 1,
       shelters: [{ name: "Kozhikode Community Center", capacity: 60 }],
     },
+
+    // LANDSLIDE PRONE AREAS
+    Peringamala: {
+      coordinates: { lat: 8.7292, lng: 77.0464 },
+      riskScore: 80,
+      riskLevel: "HIGH",
+      alerts: [
+        {
+          title: "🏔️ High Probability of Landslides in Elevated Areas",
+          message: "Landslide risk alert for hilly terrain",
+          description: "Critical landslide warning issued for elevated areas",
+          severity: "HIGH",
+          timestamp: "2 hours ago",
+          impact: "Severe",
+          details: [
+            "Heavy rainfall expected in next 24 hours",
+            "Soil saturation levels at 82%",
+            "Vulnerable slopes identified in 8 locations",
+            "Evacuation routes have been prepared",
+            "Rescue teams on standby at 3 locations",
+            "Geological survey shows unstable soil layers",
+          ],
+        },
+      ],
+      historicalDisasters: {
+        "2018 Landslides": "Multiple incidents reported",
+        "2016 Landslides": "2 fatalities",
+      },
+      rescueTeams: 12,
+      medicalUnits: 6,
+      helplineNumbers: ["112", "1077", "9446700700"],
+      sosAvailable: true,
+      shelterCount: 2,
+      shelters: [
+        { name: "Peringamala Primary School Shelter", capacity: 50 },
+        { name: "Community Hall Relief Center", capacity: 40 },
+      ],
+    },
+
+    Amboori: {
+      coordinates: { lat: 8.5078, lng: 77.1890 },
+      riskScore: 78,
+      riskLevel: "HIGH",
+      alerts: [
+        {
+          title: "🏔️ High Probability of Landslides in Elevated Areas",
+          message: "Landslide risk alert for hilly terrain",
+          description: "Critical landslide warning issued for elevated areas",
+          severity: "HIGH",
+          timestamp: "1.5 hours ago",
+          impact: "Severe",
+          details: [
+            "Heavy rainfall expected in next 24 hours",
+            "Soil saturation levels at 80%",
+            "Vulnerable slopes identified in 6 locations",
+            "Rock fall potential in upper regions",
+            "Debris flow channels activated",
+            "Early warning system triggered",
+          ],
+        },
+      ],
+      historicalDisasters: {
+        "2019 Landslides": "Multiple affected areas",
+        "2015 Geo-hazard": "Survey completed",
+      },
+      rescueTeams: 10,
+      medicalUnits: 5,
+      helplineNumbers: ["112", "1077"],
+      sosAvailable: true,
+      shelterCount: 1,
+      shelters: [{ name: "Amboori Government School Shelter", capacity: 60 }],
+    },
+
+    Vellarada: {
+      coordinates: { lat: 8.445238, lng: 77.194617 },
+      riskScore: 75,
+      riskLevel: "HIGH",
+      alerts: [
+        {
+          title: "🏔️ High Probability of Landslides in Elevated Areas",
+          message: "Landslide risk alert for hilly terrain",
+          description: "Critical landslide warning issued for elevated areas",
+          severity: "HIGH",
+          timestamp: "3 hours ago",
+          impact: "Severe",
+          details: [
+            "Heavy rainfall expected in next 48 hours",
+            "Soil saturation levels at 78%",
+            "Vulnerable slopes identified in 5 locations",
+            "Steep gradient zones pose high risk",
+            "Vegetation loss increases susceptibility",
+            "Geological mapping completed",
+          ],
+        },
+      ],
+      historicalDisasters: {
+        "2018 Landslides": "1 fatality reported",
+        "2014 Landslides": "Multiple incidents",
+      },
+      rescueTeams: 9,
+      medicalUnits: 5,
+      helplineNumbers: ["112", "1077"],
+      sosAvailable: true,
+      shelterCount: 1,
+      shelters: [{ name: "Vellarada Community School Shelter", capacity: 55 }],
+    },
+
+    // FLOOD PRONE AREAS
+    Thampanoor: {
+      coordinates: { lat: 8.4880, lng: 76.9510 },
+      riskScore: 70,
+      riskLevel: "HIGH",
+      alerts: [
+        {
+          title: "💧 Water Levels Approaching Critical Capacity",
+          message: "Flood risk alert for low-lying areas",
+          description: "Water levels rising rapidly in river valleys",
+          severity: "HIGH",
+          timestamp: "1 hour ago",
+          impact: "Severe",
+          details: [
+            "River water level rising at 3cm per hour",
+            "Flood-prone zones: Valley areas, agricultural lands",
+            "Early warning system activated",
+            "Mobile alert sent to 8,000+ residents",
+            "Sandbags distributed to vulnerable areas",
+            "Evacuation preparedness announced",
+          ],
+        },
+      ],
+      historicalDisasters: {
+        "2018 Floods": "450+ affected",
+        "2013 Flash Floods": "75 missing",
+      },
+      rescueTeams: 15,
+      medicalUnits: 8,
+      helplineNumbers: ["112", "1077", "9446700700"],
+      sosAvailable: true,
+      shelterCount: 2,
+      shelters: [
+        { name: "Thampanoor High School Shelter", capacity: 80 },
+        { name: "Government Relief Center", capacity: 70 },
+      ],
+    },
+
+    Pattom: {
+      coordinates: { lat: 8.5207, lng: 76.9423 },
+      riskScore: 72,
+      riskLevel: "HIGH",
+      alerts: [
+        {
+          title: "💧 Water Levels Approaching Critical Capacity",
+          message: "Flood risk alert for low-lying areas",
+          description: "Water levels approaching spillway capacity",
+          severity: "HIGH",
+          timestamp: "45 minutes ago",
+          impact: "Severe",
+          details: [
+            "Current water level: 85% of maximum capacity",
+            "Release gates may need to open soon",
+            "Downstream areas should remain alert",
+            "Continuous monitoring in progress",
+            "Alert level increased from MEDIUM to HIGH",
+            "Flood defenses strengthened",
+          ],
+        },
+      ],
+      historicalDisasters: {
+        "2019 Floods": "Significant impact",
+        "2015 Flash Floods": "150 evacuated",
+      },
+      rescueTeams: 14,
+      medicalUnits: 7,
+      helplineNumbers: ["112", "1077"],
+      sosAvailable: true,
+      shelterCount: 2,
+      shelters: [
+        { name: "Pattom Community School", capacity: 75 },
+        { name: "Emergency Relief Camp", capacity: 65 },
+      ],
+    },
+
+    Murinjapalam: {
+      coordinates: { lat: 8.5166, lng: 76.9317 },
+      riskScore: 68,
+      riskLevel: "MODERATE",
+      alerts: [
+        {
+          title: "💧 Water Levels Approaching Critical Capacity",
+          message: "Flood risk alert for low-lying areas",
+          description: "Flash flood warning for river valleys and low-lying zones",
+          severity: "MEDIUM",
+          timestamp: "2 hours ago",
+          impact: "Moderate",
+          details: [
+            "River water level rising at 2cm per hour",
+            "Flood-prone zones: Valley areas, agricultural lands",
+            "Early warning system activated",
+            "Mobile alert sent to 5,000+ residents",
+            "Evacuation routes prepared",
+            "Normal precautions recommended",
+          ],
+        },
+      ],
+      historicalDisasters: {
+        "2018 Floods": "200+ affected",
+        "2014 Flash Floods": "50 evacuated",
+      },
+      rescueTeams: 11,
+      medicalUnits: 6,
+      helplineNumbers: ["112", "1077"],
+      sosAvailable: true,
+      shelterCount: 1,
+      shelters: [{ name: "Murinjapalam School Shelter", capacity: 70 }],
+    },
+
+    // CYCLONE PRONE AREAS
+    Shangumugham: {
+      coordinates: { lat: 8.4827, lng: 76.9113 },
+      riskScore: 65,
+      riskLevel: "MODERATE",
+      alerts: [
+        {
+          title: "🌪️ Cyclone Alert - Coastal Areas at Risk",
+          message: "High probability of cyclonic disturbance",
+          description: "Cyclone warning issued for coastal and elevated areas",
+          severity: "MEDIUM",
+          timestamp: "30 minutes ago",
+          impact: "Moderate",
+          details: [
+            "Wind speed: 40-50 km/h expected",
+            "Storm surge prediction: 1.5-2 meters",
+            "Coastal vulnerability high",
+            "Fishing operations suspended",
+            "Ports and harbors under alert",
+            "Emergency services mobilized",
+          ],
+        },
+      ],
+      historicalDisasters: {
+        "2018 Cyclones": "Multiple impacts",
+        "2016 Cyclone": "Widespread damage",
+      },
+      rescueTeams: 13,
+      medicalUnits: 7,
+      helplineNumbers: ["112", "1077", "9446700700"],
+      sosAvailable: true,
+      shelterCount: 2,
+      shelters: [
+        { name: "Shangumugham Community Hall", capacity: 85 },
+        { name: "Coastal Refugee Center", capacity: 75 },
+      ],
+    },
+
+    Varkala: {
+      coordinates: { lat: 8.7379, lng: 76.7163 },
+      riskScore: 50,
+      riskLevel: "MODERATE",
+      alerts: [
+        {
+          title: "🌊 Coastal Surge Advisory",
+          message: "High tide and strong waves expected along the coast",
+          description: "Coastal surge advisory for Varkala beach areas",
+          severity: "MEDIUM",
+          timestamp: "2 hours ago",
+          impact: "Moderate",
+          details: [
+            "High tide expected during evening hours",
+            "Beach erosion risk in exposed sections",
+            "Small craft advised to remain in harbor",
+          ],
+        },
+      ],
+      historicalDisasters: {},
+      rescueTeams: 8,
+      medicalUnits: 4,
+      helplineNumbers: ["112", "1077"],
+      sosAvailable: true,
+      shelterCount: 1,
+      shelters: [{ name: "Varkala Community Center Shelter", capacity: 60 }],
+    },
   };
 
   // Return data if place exists

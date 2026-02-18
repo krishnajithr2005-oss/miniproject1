@@ -7,38 +7,23 @@
  */
 
 export const PLACES = [
-  // Districts
-  "Thiruvananthapuram",
-  "Kollam",
-  "Pathanamthitta",
-  "Alappuzha",
-  "Kottayam",
-  "Idukki",
-  "Ernakulam",
-  "Thrissur",
-  "Malappuram",
-  "Kozhikode",
-  "Wayanad",
-  "Kannur",
-  "Kasaragod",
-  
-  // Major Cities & Towns
-  "Kochi",
-  "Kottayam",
-  "Kannur",
-  "Kozhikode",
-  "Thrissur",
-  "Alappuzha",
-  "Idukki",
-  "Munnar",
-  "Thekkady",
-  "Kumarakom",
+
+
+
+  // Landslide Prone Areas
+  "Peringamala",
+  "Amboori",
+  "Vellarada",
+
+  // Flood Prone Areas
+  "Thampanoor",
+  "Pattom",
+  "Murinjapalam",
+
+  // Cyclone Prone Areas
+  "Shangumugham",
+
+  // Coastal / Popular Places
   "Varkala",
-  "Kovalam",
-  "Fort Kochi",
-  "Mattancherry",
-  "Waynad",
-  "Ponmudi",
-  "Vagamon",
-  "Peermade",
+
 ];
