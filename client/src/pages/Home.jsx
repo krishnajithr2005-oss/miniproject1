@@ -96,7 +96,7 @@ Start implementing now.
 
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import L from "leaflet";
 import { getPlaceData } from "../services/dataService";
 import { PLACES } from "../data/places";
@@ -383,9 +383,8 @@ const Home = () => {
               {suggestions.map((place, idx) => (
                 <div
                   key={idx}
-                  className={`suggestion-item ${
-                    idx === highlightedIndex ? "highlighted" : ""
-                  }`}
+                  className={`suggestion-item ${idx === highlightedIndex ? "highlighted" : ""
+                    }`}
                   onClick={() => handleSelectPlace(place)}
                   onMouseEnter={() => setHighlightedIndex(idx)}
                 >
@@ -554,6 +553,100 @@ const Home = () => {
                     </div>
                   </Popup>
                 </Marker>
+
+                {/* RISK ZONE CIRCLE */}
+                {placeData && (
+                  (() => {
+                    const level = placeData.riskLevel || "LOW";
+                    // Risk circle colors (swapped): HIGH -> green, MODERATE -> orange, LOW -> yellow
+                    let color = level === "HIGH" ? "#00c853" : level === "MODERATE" ? "#ff9f0a" : "#ffd60a";
+                    // radius scales with risk score (meters)
+                    const score = placeData.riskScore || 40;
+                    const riskRadius = Math.max(2000, Math.min(20000, score * 200));
+                    const shelterRadius = 4000; // shelter coverage radius (meters)
+
+                    // Special-case overrides for two specific locations (only these two change colors)
+                    const specialPlaces = ["shangumugham", "murinjapalam"];
+                    const isSpecial = selectedPlace && specialPlaces.includes(selectedPlace.toLowerCase());
+
+                    // If special: change "yellow" (MODERATE/LOW) -> green, and change shelter red -> yellow
+                    if (isSpecial) {
+                      // If level maps to a yellow/orange color, promote to green
+                      // Use green for the overall risk zone and yellow for shelter coverage
+                      color = "#00c853"; // green for overall risk zone
+                    }
+
+                    // Default shelter colors (red border, light red fill)
+                    let shelterBorder = "#ff3b30";
+                    let shelterFill = "#ffd6d6";
+
+                    if (isSpecial) {
+                      shelterBorder = "#ffd60a"; // yellow border
+                      shelterFill = "#fff8cc"; // light yellow fill
+                    }
+
+                    return (
+                      <>
+                        <Circle
+                          center={[placeData.coordinates.lat, placeData.coordinates.lng]}
+                          radius={riskRadius}
+                          pathOptions={{ color, fillColor: color, fillOpacity: 0.22, weight: 3 }}
+                        >
+                          <Popup>
+                            <b>Overall Risk Zone</b>
+                            <br />Level: {level}
+                            <br />Radius: {Math.round(riskRadius)} m
+                          </Popup>
+                        </Circle>
+
+                        {/* Shelters coverage zone */}
+                        <Circle
+                          center={[placeData.coordinates.lat, placeData.coordinates.lng]}
+                          radius={shelterRadius}
+                          pathOptions={{ color: shelterBorder, fillColor: shelterFill, fillOpacity: 0.12, weight: 2 }}
+                        >
+                          <Popup>
+                            <b>Shelter Coverage Zone</b>
+                            <br />Shelters within {Math.round(shelterRadius)} m are shown
+                          </Popup>
+                        </Circle>
+
+                        {/* Shelter markers inside green zone */}
+                        {placeData.shelters && placeData.shelters.length > 0 &&
+                          placeData.shelters.map((shelter, idx) => {
+                            if (!shelter.coordinates) return null;
+                            // compute distance in meters between center and shelter
+                            const toRad = (v) => (v * Math.PI) / 180;
+                            const lat1 = placeData.coordinates.lat;
+                            const lon1 = placeData.coordinates.lng;
+                            const lat2 = shelter.coordinates.lat;
+                            const lon2 = shelter.coordinates.lng;
+                            const R = 6371000; // meters
+                            const dLat = toRad(lat2 - lat1);
+                            const dLon = toRad(lon2 - lon1);
+                            const a =
+                              Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                            const distance = R * c;
+
+                            if (distance <= shelterRadius) {
+                              return (
+                                <Marker key={idx} position={[shelter.coordinates.lat, shelter.coordinates.lng]}>
+                                  <Popup>
+                                    <strong>{shelter.name}</strong>
+                                    <br />Capacity: {shelter.capacity}
+                                  </Popup>
+                                </Marker>
+                              );
+                            }
+                            return null;
+                          })}
+                      </>
+                    );
+                  })()
+                )}
               </MapContainer>
 
               {/* LAYER INDICATORS ON MAP */}
@@ -689,7 +782,7 @@ const Home = () => {
                 <p className="helpline-title">📞 Emergency Helplines</p>
                 <div className="helpline-list">
                   {placeData.resources.helplines &&
-                  placeData.resources.helplines.length > 0 ? (
+                    placeData.resources.helplines.length > 0 ? (
                     placeData.resources.helplines.map((num, idx) => (
                       <a
                         key={idx}
@@ -735,9 +828,8 @@ const Home = () => {
                           <strong>{shelter.name}</strong>
                         </p>
                         <span
-                          className={`capacity-badge ${
-                            parseInt(shelter.capacity) < 50 ? "low" : "ok"
-                          }`}
+                          className={`capacity-badge ${parseInt(shelter.capacity) < 50 ? "low" : "ok"
+                            }`}
                         >
                           {shelter.capacity}%
                         </span>

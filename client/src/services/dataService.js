@@ -221,8 +221,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Peringamala Primary School Shelter", capacity: 50 },
-        { name: "Community Hall Relief Center", capacity: 40 },
+        { name: "Peringamala Primary School Shelter", capacity: 50, coordinates: { lat: 8.7322, lng: 77.0484 } },
+        { name: "Community Hall Relief Center", capacity: 40, coordinates: { lat: 8.7262, lng: 77.0444 } },
       ],
     },
 
@@ -257,7 +257,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Amboori Government School Shelter", capacity: 60 }],
+      shelters: [{ name: "Amboori Government School Shelter", capacity: 60, coordinates: { lat: 8.5108, lng: 77.1910 } }],
     },
 
     Vellarada: {
@@ -291,7 +291,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Vellarada Community School Shelter", capacity: 55 }],
+      shelters: [{ name: "Vellarada Community School Shelter", capacity: 55, coordinates: { lat: 8.5486, lng: 76.8809 } }],
     },
 
     // FLOOD PRONE AREAS
@@ -327,8 +327,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Thampanoor High School Shelter", capacity: 80 },
-        { name: "Government Relief Center", capacity: 70 },
+        { name: "Thampanoor High School Shelter", capacity: 80, coordinates: { lat: 8.4880, lng: 76.9510 } },
+        { name: "Government Relief Center", capacity: 70, coordinates: { lat: 8.4850, lng: 76.9500 } },
       ],
     },
 
@@ -364,8 +364,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Pattom Community School", capacity: 75 },
-        { name: "Emergency Relief Camp", capacity: 65 },
+        { name: "Pattom Community School", capacity: 75, coordinates: { lat: 8.5227, lng: 76.9443 } },
+        { name: "Emergency Relief Camp", capacity: 65, coordinates: { lat: 8.5187, lng: 76.9403 } },
       ],
     },
 
@@ -400,7 +400,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Murinjapalam School Shelter", capacity: 70 }],
+      shelters: [{ name: "Murinjapalam School Shelter", capacity: 70, coordinates: { lat: 8.5186, lng: 76.9347 } }],
     },
 
     // CYCLONE PRONE AREAS
@@ -436,8 +436,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Shangumugham Community Hall", capacity: 85 },
-        { name: "Coastal Refugee Center", capacity: 75 },
+        { name: "Shangumugham Community Hall", capacity: 85, coordinates: { lat: 8.4857, lng: 76.9133 } },
+        { name: "Coastal Refugee Center", capacity: 75, coordinates: { lat: 8.4797, lng: 76.9093 } },
       ],
     },
 
