@@ -4,6 +4,7 @@ import "./SOSModal.css";
 const SOSModal = ({ isOpen, onClose, selectedPlace, placeData }) => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [selectedHelpline, setSelectedHelpline] = useState(null);
 
   // Disable body scroll when modal is open
   useEffect(() => {
@@ -31,15 +32,39 @@ const SOSModal = ({ isOpen, onClose, selectedPlace, placeData }) => {
   }, [isOpen]);
 
   const handleConfirm = () => {
-    setIsConfirmed(true);
-    setShowToast(true);
+    // Send SOS to server which will use DB alerts or fallback to placeData
+    (async () => {
+      try {
+        const API_BASE = process.env.REACT_APP_API || "http://localhost:5000";
+        const resp = await fetch(`${API_BASE}/api/sos`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ place: selectedPlace, phone: selectedHelpline || "8078518247", placeData }),
+        });
+        if (!resp.ok) {
+          const errText = await resp.text().catch(() => "");
+          throw new Error(`Server responded ${resp.status}: ${errText}`);
+        }
 
-    // Auto-close modal and toast after 3 seconds
-    setTimeout(() => {
-      handleClose();
-      setIsConfirmed(false);
-      setShowToast(false);
-    }, 3000);
+        const result = await resp.json();
+        // show confirmation UI and toast
+        setIsConfirmed(true);
+        setShowToast(true);
+
+        // optionally show server message in console for debugging
+        console.log("SOS result:", result);
+
+        // Auto-close modal and toast after 3 seconds
+        setTimeout(() => {
+          handleClose();
+          setIsConfirmed(false);
+          setShowToast(false);
+        }, 3000);
+      } catch (err) {
+        console.error("Failed to send SOS:", err);
+        alert("Failed to send SOS. Please try again or call emergency helpline.");
+      }
+    })();
   };
 
   const handleClose = () => {
@@ -58,6 +83,12 @@ const SOSModal = ({ isOpen, onClose, selectedPlace, placeData }) => {
   const lat = placeData?.coordinates?.lat || 11.4279;
   const lng = placeData?.coordinates?.lng || 76.7642;
   const location = selectedPlace || "Thiruvananthapuram District, Kerala";
+
+  // initialize selected helpline when placeData changes
+  useEffect(() => {
+    const first = placeData?.resources?.helplines?.[0];
+    setSelectedHelpline(first || "8078518247");
+  }, [placeData]);
 
   if (!isOpen) return null;
 
@@ -145,17 +176,22 @@ const SOSModal = ({ isOpen, onClose, selectedPlace, placeData }) => {
               <div className="helpline-section">
                 <h3>📞 Emergency Helplines</h3>
                 <div className="helpline-numbers">
-                  {placeData?.resources?.helplines?.map((num, idx) => (
-                    <a
-                      key={idx}
-                      href={`tel:${num}`}
-                      className="helpline-number"
-                      title={`Call ${num}`}
-                    >
-                      <span className="phone-icon">📱</span>
-                      <span className="number">{num}</span>
-                    </a>
-                  ))}
+                  {placeData?.resources?.helplines && placeData.resources.helplines.length > 0 ? (
+                    placeData.resources.helplines.map((num, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className={`helpline-number ${selectedHelpline === num ? "selected" : ""}`}
+                        onClick={() => setSelectedHelpline(num)}
+                        title={`Send SOS to ${num}`}
+                      >
+                        <span className="phone-icon">📱</span>
+                        <span className="number">{num}</span>
+                      </button>
+                    ))
+                  ) : (
+                    <p className="placeholder-text">No helplines available</p>
+                  )}
                 </div>
               </div>
 

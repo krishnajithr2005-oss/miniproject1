@@ -87,7 +87,7 @@ app.post("/analyze", (req, res) => {
   const riskLevel = riskLevels[Math.floor(Math.random() * 3)];
   const riskScore =
     riskLevel === "HIGH" ? 8 :
-    riskLevel === "MEDIUM" ? 5 : 2;
+      riskLevel === "MEDIUM" ? 5 : 2;
 
   res.json({
     district,
@@ -96,6 +96,76 @@ app.post("/analyze", (req, res) => {
     riskLevel,
     riskScore
   });
+});
+
+// 🔹 API: Send SOS SMS (uses DB alerts if available, falls back to provided placeData)
+app.post("/api/sos", async (req, res) => {
+  try {
+    const { place, phone, placeData } = req.body;
+
+    if (!place) return res.status(400).json({ error: "place is required" });
+
+    // Default target phone if not provided
+    const targetPhone = phone || "8078518247";
+
+    // Try to fetch alerts from DB for this place
+    let alerts = [];
+    try {
+      alerts = await Alert.find({ placeName: place });
+    } catch (err) {
+      // ignore DB errors and fallback to placeData
+      alerts = [];
+    }
+
+    // If no DB alerts, try incoming placeData.alerts
+    if ((!alerts || alerts.length === 0) && placeData && placeData.alerts) {
+      alerts = placeData.alerts.map((a) => ({
+        title: a.title || a.message || "Alert",
+        description: a.description || a.message || "",
+        severity: a.severity || "MEDIUM",
+        type: a.type || "unknown",
+      }));
+    }
+
+    // Compose SMS body based on alerts
+    let body = `SOS from ${place}: `;
+    if (alerts && alerts.length > 0) {
+      // determine highest severity
+      const severities = { LOW: 1, MEDIUM: 2, HIGH: 3 };
+      alerts.sort((a, b) => (severities[b.severity || 'MEDIUM'] || 2) - (severities[a.severity || 'MEDIUM'] || 2));
+      const top = alerts[0];
+      const types = Array.from(new Set(alerts.map((a) => (a.type || (a.title || '').toLowerCase()).toString())));
+      body += `${top.severity || 'MEDIUM'} alert. `;
+      body += `Hazards: ${types.slice(0, 3).join(', ')}. `;
+      body += `${top.title || top.description || ''}`;
+    } else {
+      body += "No detailed alert data available. Please check the app for details.";
+    }
+
+    // Optional: send via Twilio when configured
+    if (process.env.TWILIO_SID && process.env.TWILIO_TOKEN && process.env.TWILIO_FROM) {
+      const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+      try {
+        await twilio.messages.create({
+          body,
+          from: process.env.TWILIO_FROM,
+          to: targetPhone.startsWith('+') ? targetPhone : `+91${targetPhone}`,
+        });
+        return res.json({ ok: true, sent: true, via: 'twilio', body });
+      } catch (err) {
+        console.error('Twilio send error:', err.message || err);
+        // fallthrough to simulated response
+      }
+    }
+
+    // If Twilio not configured or failed, simulate/send response and log
+    console.log('Simulated SMS to', targetPhone, ':', body);
+
+    return res.json({ ok: true, sent: false, simulated: true, body });
+  } catch (error) {
+    console.error('SOS error', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 const PORT = process.env.PORT || 5000;

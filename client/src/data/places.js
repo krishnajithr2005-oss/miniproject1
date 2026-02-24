@@ -1,29 +1,11 @@
-/**
- * PLACES DATA
- * Array of all Kerala districts and major cities
- * Used for autocomplete search functionality
- * 
- * NOTE: This can be replaced with an API call to fetch from database later
- */
-
+// Only the user-specified risk-prone locations
 export const PLACES = [
-
-
-
-  // Landslide Prone Areas
   "Peringamala",
   "Amboori",
   "Vellarada",
-
-  // Flood Prone Areas
-  "Thampanoor",
+  "thampanoor",
   "Pattom",
-  "Murinjapalam",
-
-  // Cyclone Prone Areas
+  "murinjapalam",
   "Shangumugham",
-
-  // Coastal / Popular Places
   "Varkala",
-
 ];
