@@ -221,7 +221,7 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Peringamala Primary School Shelter", capacity: 50, coordinates: { lat: 8.7322, lng: 77.0484 } },
+        { name: "Government Upper Primary School (GUPS) Vithura", capacity: 50, coordinates: { lat: 8.730568, lng: 77.047861 } },
         { name: "Community Hall Relief Center", capacity: 40, coordinates: { lat: 8.7262, lng: 77.0444 } },
       ],
     },
