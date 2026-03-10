@@ -164,6 +164,21 @@ const Home = () => {
     }
   };
 
+  // 🔍 SHOW ALL SUGGESTIONS ON FOCUS
+  const handleSearchFocus = () => {
+    setShowSuggestions(true);
+    if (searchQuery.trim().length === 0) {
+      // If search box is empty, show all places
+      setSuggestions(PLACES.slice(0, 8));
+    } else {
+      // If there's a query, show filtered suggestions
+      const filtered = PLACES.filter((place) =>
+        place.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setSuggestions(filtered.slice(0, 8));
+    }
+  };
+
   // ⌨️ KEYBOARD NAVIGATION
   const handleSearchKeyDown = (e) => {
     if (!showSuggestions) return;
@@ -309,7 +324,7 @@ const Home = () => {
       {/* ═══ TOP BAR ═══ */}
       <div className="topbar">
         <div className="title-section">
-          <h1 className="title">🛡️ SURAKSHA KERALAM 2.0</h1>
+          <h1 className="title">🛡️ DISASTER LENS</h1>
           <p className="subtitle">Natural Disaster Risk Analyzer</p>
         </div>
 
@@ -347,10 +362,10 @@ const Home = () => {
             <input
               type="text"
               value={searchQuery}
-              placeholder="Search district or place (e.g., Idukki, Wayanad)..."
+              placeholder="Search..."
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
-              onFocus={() => searchQuery && setShowSuggestions(true)}
+              onFocus={handleSearchFocus}
               className="search-input"
               autoComplete="off"
             />
@@ -632,11 +647,35 @@ const Home = () => {
                             const distance = R * c;
 
                             if (distance <= shelterRadius) {
+                              // Create custom green shelter icon
+                              const shelterIcon = L.divIcon({
+                                html: `
+                                  <div style="
+                                    background-color: #10b981;
+                                    color: white;
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 20px;
+                                    border: 3px solid #059669;
+                                    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.6);
+                                  ">
+                                    🏠
+                                  </div>
+                                `,
+                                iconSize: [40, 40],
+                                className: "shelter-marker"
+                              });
+
                               return (
-                                <Marker key={idx} position={[shelter.coordinates.lat, shelter.coordinates.lng]}>
+                                <Marker key={idx} position={[shelter.coordinates.lat, shelter.coordinates.lng]} icon={shelterIcon}>
                                   <Popup>
-                                    <strong>{shelter.name}</strong>
-                                    <br />Capacity: {shelter.capacity}
+                                    <strong style={{ color: '#065f46' }}>🏠 {shelter.name}</strong>
+                                    <br />
+                                    <span style={{ color: '#047857' }}>Capacity: {shelter.capacity}%</span>
                                   </Popup>
                                 </Marker>
                               );
@@ -814,30 +853,30 @@ const Home = () => {
 
           {placeData && placeData.shelters ? (
             <div className="shelter-content">
-              <div className="shelter-count-box">
-                <span className="count">{placeData.shelters.length || 0}</span>
-                <span className="text">shelters available</span>
+              <div className="shelter-count-box" style={{ backgroundColor: '#d1fae5', borderLeft: '4px solid #10b981' }}>
+                <span className="count" style={{ color: '#065f46' }}>{placeData.shelters.length || 0}</span>
+                <span className="text" style={{ color: '#047857' }}>shelters available</span>
               </div>
 
               {placeData.shelters && placeData.shelters.length > 0 ? (
-                <div className="shelters-list">
+                <div className="shelters-list" style={{ backgroundColor: '#f0fdf4', border: '2px solid #10b981', borderRadius: '8px', padding: '12px' }}>
                   {placeData.shelters.map((shelter, idx) => (
-                    <div key={idx} className="shelter-item">
+                    <div key={idx} className="shelter-item" style={{ backgroundColor: '#fff', border: '1px solid #bbf7d0', borderRadius: '6px', padding: '10px', marginBottom: '8px' }}>
                       <div className="shelter-header">
                         <p className="shelter-name">
-                          <strong>{shelter.name}</strong>
+                          <strong style={{ color: '#065f46' }}>📍 {shelter.name}</strong>
                         </p>
                         <span
-                          className={`capacity-badge ${parseInt(shelter.capacity) < 50 ? "low" : "ok"
-                            }`}
+                          className={`capacity-badge ${parseInt(shelter.capacity) < 50 ? "low" : "ok"}`}
+                          style={{ backgroundColor: '#dbeafe', color: '#0c4a6e', padding: '4px 8px', borderRadius: '4px' }}
                         >
-                          {shelter.capacity}%
+                          {shelter.capacity}% Full
                         </span>
                       </div>
                       <div className="capacity-bar">
                         <div
                           className="capacity-fill"
-                          style={{ width: shelter.capacity }}
+                          style={{ width: parseInt(shelter.capacity) + '%', backgroundColor: '#10b981', height: '6px', borderRadius: '3px' }}
                         ></div>
                       </div>
                     </div>

@@ -106,8 +106,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Idukki Government School Shelter", capacity: 75 },
-        { name: "Community Center Relief Camp", capacity: 60 },
+        { name: "Idukki Government School Shelter", capacity: 75, coordinates: { lat: 10.3120, lng: 76.7150 } },
+        { name: "Community Center Relief Camp", capacity: 60, coordinates: { lat: 10.3050, lng: 76.7200 } },
       ],
     },
 
@@ -138,7 +138,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Kottayam Community Hall", capacity: 100 }],
+      shelters: [{ name: "Kottayam Community Hall", capacity: 100, coordinates: { lat: 9.6450, lng: 76.5280 } }],
     },
 
     Alappuzha: {
@@ -169,8 +169,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Alappuzha High School", capacity: 80 },
-        { name: "Coastal Shelter Center", capacity: 50 },
+        { name: "Alappuzha High School", capacity: 80, coordinates: { lat: 9.5010, lng: 76.3420 } },
+        { name: "Coastal Shelter Center", capacity: 50, coordinates: { lat: 9.4950, lng: 76.3350 } },
       ],
     },
 
@@ -185,7 +185,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Kozhikode Community Center", capacity: 60 }],
+      shelters: [{ name: "Kozhikode Community Center", capacity: 60, coordinates: { lat: 11.2620, lng: 75.7840 } }],
     },
 
     // LANDSLIDE PRONE AREAS
@@ -466,7 +466,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Varkala Community Center Shelter", capacity: 60 }],
+      shelters: [{ name: "Varkala Community Center Shelter", capacity: 60, coordinates: { lat: 8.7410, lng: 76.7200 } }],
     },
   };
 
@@ -529,6 +529,7 @@ export const getPlaceData = (placeName) => {
       shelters: data.shelters.map((shelter) => ({
         name: shelter.name,
         capacity: parseInt(shelter.capacity) || 0,
+        coordinates: shelter.coordinates || null,
       })),
     };
   }
