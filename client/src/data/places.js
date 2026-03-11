@@ -4,7 +4,6 @@ export const PLACES = [
   "Amboori",
   "Vellarada",
   "Pattom",
-  "murinjapalam",
   "Shangumugham",
   "Varkala",
 ];
