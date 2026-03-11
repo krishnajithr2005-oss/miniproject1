@@ -291,7 +291,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Vellarada Community School Shelter", capacity: 55, coordinates: { lat: 8.5486, lng: 76.8809 } }],
+      shelters: [{ name: "Government School in Karakonam", capacity: 55, coordinates: { lat: 8.5486, lng: 76.8809 } }],
     },
 
     // FLOOD PRONE AREAS
@@ -364,8 +364,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Pattom Community School", capacity: 75, coordinates: { lat: 8.5227, lng: 76.9443 } },
-        { name: "Emergency Relief Camp", capacity: 65, coordinates: { lat: 8.5187, lng: 76.9403 } },
+        { name: "Mananthala govt high school", capacity: 75, coordinates: { lat: 8.5227, lng: 76.9443 } },
+        { name: "Govt VHSS Vattiyoorkav", capacity: 65, coordinates: { lat: 8.5187, lng: 76.9403 } },
       ],
     },
 
@@ -400,7 +400,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Murinjapalam School Shelter", capacity: 70, coordinates: { lat: 8.5347, lng: 76.9675 } }],
+      shelters: [{ name: "GHSS perrorkkada", capacity: 70, coordinates: { lat: 8.5347, lng: 76.9675 } }],
     },
 
     // CYCLONE PRONE AREAS
@@ -436,8 +436,8 @@ export const getPlaceData = (placeName) => {
       sosAvailable: true,
       shelterCount: 2,
       shelters: [
-        { name: "Shangumugham Community Hall", capacity: 85, coordinates: { lat: 8.4857, lng: 76.9133 } },
-        { name: "Coastal Refugee Center", capacity: 75, coordinates: { lat: 8.4797, lng: 76.9093 } },
+        { name: "Karamana GBHSS", capacity: 85, coordinates: { lat: 8.4857, lng: 76.9133 } },
+        { name: "Govt ups ulloor", capacity: 75, coordinates: { lat: 8.4797, lng: 76.9093 } },
       ],
     },
 
