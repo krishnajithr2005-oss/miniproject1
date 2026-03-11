@@ -655,42 +655,30 @@ const Home = () => {
                             const distance = R * c;
 
                             if (distance <= shelterRadius) {
-                              // Create custom green shelter icon
-                              // Use emoji icon for Murinjapalam School Shelter
-                              let shelterIcon;
-                              if (shelter.name === "Murinjapalam School Shelter") {
-                                shelterIcon = L.divIcon({
-                                  html: '<div style="font-size: 24px;">🏠</div>',
-                                  className: 'custom-div-icon',
-                                  iconSize: [30, 30],
-                                  iconAnchor: [15, 15]
-                                });
-                              } else {
-                                shelterIcon = L.divIcon({
-                                  html: `
-                                    <div style="
-                                      background-color: #10b981;
-                                      color: white;
-                                      border-radius: 50%;
-                                      width: 40px;
-                                      height: 40px;
-                                      display: flex;
-                                      align-items: center;
-                                      justify-content: center;
-                                      font-size: 20px;
-                                      border: 3px solid #059669;
-                                      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.6);
-                                    ">
-                                      🏠
-                                    </div>
-                                  `,
-                                  iconSize: [40, 40],
-                                  className: "shelter-marker"
-                                });
-                              }
+                              const shelterMarkerIcon = L.divIcon({
+                                html: `
+                                  <div style="
+                                    background-color: #10b981;
+                                    color: white;
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 20px;
+                                    border: 3px solid #059669;
+                                    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.6);
+                                  ">
+                                    🏠
+                                  </div>
+                                `,
+                                iconSize: [40, 40],
+                                className: "shelter-marker"
+                              });
 
                               return (
-                                <Marker key={idx} position={[shelter.coordinates.lat, shelter.coordinates.lng]} icon={shelterIcon}>
+                                <Marker key={idx} position={[shelter.coordinates.lat, shelter.coordinates.lng]} icon={shelterMarkerIcon}>
                                   <Popup>
                                     <strong style={{ color: '#065f46' }}>🏠 {shelter.name}</strong>
                                     <br />
@@ -702,7 +690,7 @@ const Home = () => {
                             return null;
                           })}
 
-                        {/* Static Marker for Peringamala Primary School Shelter */}
+                        {/* Static Marker for Peringamala */}
                         {selectedPlace === "Peringamala" && (() => {
                           const greenShelterIcon = L.divIcon({
                             html: `
@@ -735,10 +723,44 @@ const Home = () => {
                             </Marker>
                           );
                         })()}
-                      </>
-                    );
-                  })()
-                )}
+
+                        {/* Static Marker for Amboori */}
+                        {selectedPlace === "Amboori" && (() => {
+                          const greenShelterIcon = L.divIcon({
+                            html: `
+                              <div style="
+                                background-color: #10b981;
+                                color: white;
+                                border-radius: 50%;
+                                width: 40px;
+                                height: 40px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 20px;
+                                border: 3px solid #059669;
+                                box-shadow: 0 2px 8px rgba(16, 185, 129, 0.6);
+                              ">
+                                🏠
+                              </div>
+                            `,
+                            iconSize: [40, 40],
+                            className: "shelter-marker"
+                          });
+                          return (
+                            <Marker position={[8.5618, 77.0566]} icon={greenShelterIcon}>
+                              <Popup>
+                                <strong style={{ color: '#065f46' }}>🏠 Govt lp school kattakkada</strong>
+                                <br />
+                                <span style={{ color: '#047857' }}>Emergency Shelter</span>
+                              </Popup>
+                            </Marker>
+                          );
+                        })()}
+                        </>
+                      );
+                    })()
+                  )}
               </MapContainer>
 
               {/* LAYER INDICATORS ON MAP */}

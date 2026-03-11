@@ -257,7 +257,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Govt LP School Kattakada", capacity: 60, coordinates: { lat: 8.5108, lng: 77.1910 } }],
+      shelters: [{ name: "Govt LP School Kattakada", capacity: 60, coordinates: { lat: 8.5618, lng: 77.0566 } }],
     },
 
     Vellarada: {
