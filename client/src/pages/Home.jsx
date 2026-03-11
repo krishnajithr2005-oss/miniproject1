@@ -656,27 +656,38 @@ const Home = () => {
 
                             if (distance <= shelterRadius) {
                               // Create custom green shelter icon
-                              const shelterIcon = L.divIcon({
-                                html: `
-                                  <div style="
-                                    background-color: #10b981;
-                                    color: white;
-                                    border-radius: 50%;
-                                    width: 40px;
-                                    height: 40px;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    font-size: 20px;
-                                    border: 3px solid #059669;
-                                    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.6);
-                                  ">
-                                    🏠
-                                  </div>
-                                `,
-                                iconSize: [40, 40],
-                                className: "shelter-marker"
-                              });
+                              // Use emoji icon for Murinjapalam School Shelter
+                              let shelterIcon;
+                              if (shelter.name === "Murinjapalam School Shelter") {
+                                shelterIcon = L.divIcon({
+                                  html: '<div style="font-size: 24px;">🏠</div>',
+                                  className: 'custom-div-icon',
+                                  iconSize: [30, 30],
+                                  iconAnchor: [15, 15]
+                                });
+                              } else {
+                                shelterIcon = L.divIcon({
+                                  html: `
+                                    <div style="
+                                      background-color: #10b981;
+                                      color: white;
+                                      border-radius: 50%;
+                                      width: 40px;
+                                      height: 40px;
+                                      display: flex;
+                                      align-items: center;
+                                      justify-content: center;
+                                      font-size: 20px;
+                                      border: 3px solid #059669;
+                                      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.6);
+                                    ">
+                                      🏠
+                                    </div>
+                                  `,
+                                  iconSize: [40, 40],
+                                  className: "shelter-marker"
+                                });
+                              }
 
                               return (
                                 <Marker key={idx} position={[shelter.coordinates.lat, shelter.coordinates.lng]} icon={shelterIcon}>

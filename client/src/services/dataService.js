@@ -257,7 +257,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Amboori Government School Shelter", capacity: 60, coordinates: { lat: 8.5108, lng: 77.1910 } }],
+      shelters: [{ name: "Govt LP School Kattakada", capacity: 60, coordinates: { lat: 8.5108, lng: 77.1910 } }],
     },
 
     Vellarada: {
@@ -400,7 +400,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Murinjapalam School Shelter", capacity: 70, coordinates: { lat: 8.5186, lng: 76.9347 } }],
+      shelters: [{ name: "Murinjapalam School Shelter", capacity: 70, coordinates: { lat: 8.5347, lng: 76.9675 } }],
     },
 
     // CYCLONE PRONE AREAS
