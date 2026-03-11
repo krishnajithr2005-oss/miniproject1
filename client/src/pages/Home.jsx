@@ -588,8 +588,8 @@ const Home = () => {
                     const riskRadius = Math.max(2000, Math.min(20000, score * 200));
                     const shelterRadius = 4000; // shelter coverage radius (meters)
 
-                    // Special-case overrides for two specific locations (only these two change colors)
-                    const specialPlaces = ["shangumugham", "murinjapalam"];
+                    // Special-case overrides for specific locations (these change colors)
+                    const specialPlaces = ["shangumugham", "murinjapalam", "varkala"];
                     const isSpecial = selectedPlace && specialPlaces.includes(selectedPlace.toLowerCase());
 
                     // If special: change "yellow" (MODERATE/LOW) -> green, and change shelter red -> yellow
@@ -883,9 +883,9 @@ const Home = () => {
                             className: "shelter-marker"
                           });
                           return (
-                            <Marker position={[8.537250, 76.96650]} icon={greenShelterIcon}>
+                            <Marker position={[8.55, 76.91]} icon={greenShelterIcon}>
                               <Popup>
-                                <strong style={{ color: '#065f46' }}>🏠 GHSS perrorkkada</strong>
+                                <strong style={{ color: '#065f46' }}>🏠 GHS sreekaryam</strong>
                                 <br />
                                 <span style={{ color: '#047857' }}>Emergency Shelter</span>
                               </Popup>
@@ -954,6 +954,40 @@ const Home = () => {
                             <Marker position={[8.53, 76.93]} icon={greenShelterIcon2}>
                               <Popup>
                                 <strong style={{ color: '#065f46' }}>🏠 Govt ups ulloor</strong>
+                                <br />
+                                <span style={{ color: '#047857' }}>Emergency Shelter</span>
+                              </Popup>
+                            </Marker>
+                          );
+                        })()}
+
+                        {/* Static Marker for Varkala */}
+                        {selectedPlace === "Varkala" && (() => {
+                          const greenShelterIcon = L.divIcon({
+                            html: `
+                              <div style="
+                                background-color: #10b981;
+                                color: white;
+                                border-radius: 50%;
+                                width: 40px;
+                                height: 40px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 20px;
+                                border: 3px solid #059669;
+                                box-shadow: 0 2px 8px rgba(16, 185, 129, 0.6);
+                              ">
+                                🏠
+                              </div>
+                            `,
+                            iconSize: [40, 40],
+                            className: "shelter-marker"
+                          });
+                          return (
+                            <Marker position={[8.77, 76.76]} icon={greenShelterIcon}>
+                              <Popup>
+                                <strong style={{ color: '#065f46' }}>🏠Govt LPS Kallambalam </strong>
                                 <br />
                                 <span style={{ color: '#047857' }}>Emergency Shelter</span>
                               </Popup>

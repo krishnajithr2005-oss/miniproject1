@@ -3,7 +3,6 @@ export const PLACES = [
   "Peringamala",
   "Amboori",
   "Vellarada",
-  "thampanoor",
   "Pattom",
   "murinjapalam",
   "Shangumugham",

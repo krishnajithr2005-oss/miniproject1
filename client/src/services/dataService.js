@@ -400,7 +400,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077", "8078518247"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "GHSS perrorkkada", capacity: 70, coordinates: { lat: 8.5347, lng: 76.9675 } }],
+      shelters: [{ name: "GHS sreekaryam", capacity: 70, coordinates: { lat: 8.5347, lng: 76.9675 } }],
     },
 
     // CYCLONE PRONE AREAS
@@ -466,7 +466,7 @@ export const getPlaceData = (placeName) => {
       helplineNumbers: ["112", "1077"],
       sosAvailable: true,
       shelterCount: 1,
-      shelters: [{ name: "Varkala Community Center Shelter", capacity: 60, coordinates: { lat: 8.7410, lng: 76.7200 } }],
+      shelters: [{ name: "Govt LPS Kallambalam", capacity: 60, coordinates: { lat: 8.7410, lng: 76.7200 } }],
     },
   };
 
