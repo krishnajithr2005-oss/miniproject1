@@ -1,0 +1,363 @@
+/* District Detail Page Styles */
+
+.district-detail {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+}
+
+.district-header {
+  background: white;
+  border-radius: 15px;
+  padding: 40px 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.back-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+.back-btn:hover {
+  background: #5568d3;
+  transform: translateX(-2px);
+}
+
+.header-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.district-title {
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+  color: #1a1a1a;
+}
+
+.district-desc {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 0 15px 0;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 2px solid;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.district-section {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-heading {
+  font-size: 1.5rem;
+  margin: 0 0 25px 0;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Map Container */
+.map-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #eee;
+}
+
+/* Alerts Grid */
+.alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.alert-card {
+  border-left: 5px solid;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.alert-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.alert-type {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.severity-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.alert-message {
+  margin: 0;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* History List */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.history-card {
+  border-left: 5px solid;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.history-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.disaster-type {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.disaster-date {
+  margin: 5px 0 0 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.disaster-description {
+  margin: 0 0 15px 0;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.disaster-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stat-item {
+  background: white;
+  padding: 12px 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.stat-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.stat-number {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+  border: 2px solid #ffd699;
+}
+
+.recommendations {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.recommendations ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.recommendations li {
+  padding: 12px 0;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-bottom: 1px solid #eee;
+}
+
+.recommendations li:last-child {
+  border-bottom: none;
+}
+
+.recommendations strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .district-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .district-title {
+    font-size: 2rem;
+  }
+
+  .district-section {
+    padding: 20px;
+  }
+
+  .section-heading {
+    font-size: 1.2rem;
+  }
+
+  .map-container {
+    height: 350px;
+  }
+
+  .alerts-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-header {
+    display: block;
+  }
+
+  .severity-badge {
+    display: block;
+    margin-top: 10px;
+    width: fit-content;
+  }
+
+  .disaster-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .district-header {
+    padding: 20px;
+  }
+
+  .district-title {
+    font-size: 1.5rem;
+  }
+
+  .district-section {
+    padding: 15px;
+  }
+
+  .section-heading {
+    font-size: 1.1rem;
+  }
+
+  .map-container {
+    height: 250px;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+
+  .stat-icon {
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+}

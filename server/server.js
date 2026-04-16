@@ -168,6 +168,99 @@ app.post("/api/sos", async (req, res) => {
   }
 });
 
+
+// 🔹 API: GET published alerts (public)
+app.get("/api/alerts", async (req, res) => {
+  try {
+    const alerts = await Alert.find({ status: "published" }).sort({ timestamp: -1 });
+    res.json(alerts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 🔹 API: GET pending alerts (admin only)
+app.get("/api/alerts/pending", async (req, res) => {
+  try {
+    // TODO: Add authentication check for admin
+    const pendingAlerts = await Alert.find({ status: "pending" }).sort({ submittedAt: -1 });
+    res.json(pendingAlerts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 🔹 API: Submit user alert (creates pending alert)
+app.post("/api/alerts/submit", async (req, res) => {
+  try {
+    const { placeName, title, description, severity, email } = req.body;
+
+    if (!placeName || !description || !severity || !email) {
+      return res.status(400).json({ error: "placeName, description, severity, and email are required" });
+    }
+
+    const newAlert = new Alert({
+      placeName,
+      title: title || "User Report: " + placeName,
+      description,
+      severity: severity.toUpperCase(),
+      type: "user-report",
+      status: "pending",
+      submittedBy: email,
+      submittedAt: new Date(),
+      isPublished: false,
+      timestamp: new Date()
+    });
+
+    await newAlert.save();
+
+    res.status(201).json({
+      ok: true,
+      message: "Alert submitted successfully. Our team will review and publish it soon.",
+      alertId: newAlert._id
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 🔹 API: Verify and publish/reject alert (admin only)
+app.put("/api/alerts/:id/verify", async (req, res) => {
+  try {
+    const { action, verifiedBy } = req.body; // action: "publish" or "reject"
+
+    if (!action || !["publish", "reject"].includes(action)) {
+      return res.status(400).json({ error: "action must be 'publish' or 'reject'" });
+    }
+
+    const alert = await Alert.findById(req.params.id);
+    if (!alert) {
+      return res.status(404).json({ error: "Alert not found" });
+    }
+
+    if (action === "publish") {
+      alert.status = "published";
+      alert.isPublished = true;
+    } else {
+      alert.status = "rejected";
+      alert.isPublished = false;
+    }
+
+    alert.verifiedBy = verifiedBy || "admin";
+    alert.verifiedAt = new Date();
+
+    await alert.save();
+
+    res.json({
+      ok: true,
+      message: `Alert ${action}ed successfully`,
+      alert
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log("🚀 Backend running on port " + PORT);
