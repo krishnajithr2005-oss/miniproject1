@@ -1,79 +1,158 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Topbar from '../components/Topbar';
-import './Dashboard.css';
+import './AboutPage.css';
 
 export default function AboutPage() {
+  const navigate = useNavigate();
+  const stats = [
+    { icon: '🏘️', number: '14', label: 'Districts' },
+    { icon: '👥', number: '50K+', label: 'Active Users' },
+    { icon: '⚡', number: '24/7', label: 'Real-Time Monitoring' },
+    { icon: '🆘', number: '1000+', label: 'Lives Saved' }
+  ];
+
+  const features = [
+    { icon: '🔔', title: 'Real-Time Alerts', description: 'Instant notifications for disasters in your area with precise location targeting' },
+    { icon: '🗺️', title: 'Interactive Risk Maps', description: 'Live visualization of flood zones, landslide areas, and risk assessment data' },
+    { icon: '⛺', title: 'Shelter Finder', description: 'Locate nearest relief shelters with real-time capacity and amenities information' },
+    { icon: '🌧️', title: 'Weather Intelligence', description: 'Hyperlocal weather data, forecasts, and climate alerts for Kerala' },
+    { icon: '🆘', title: 'Emergency SOS', description: 'One-tap rescue request with automatic location sharing to rescue teams' },
+    { icon: '📚', title: 'Preparedness Guides', description: 'Comprehensive disaster readiness and safety information for all citizens' },
+    { icon: '🤝', title: 'Volunteer Network', description: 'Join community volunteers to help those in need during emergencies' },
+    { icon: '📞', title: 'Emergency Helplines', description: 'Quick access to 24/7 emergency contact numbers and medical assistance' }
+  ];
+
+  const coreValues = [
+    { title: 'Community First', description: 'Every decision prioritizes citizen safety and welfare' },
+    { title: 'Transparency', description: 'Real-time information and honest communication always' },
+    { title: 'Innovation', description: 'Latest technology to improve disaster management' },
+    { title: 'Reliability', description: '24/7 monitoring and support when you need it most' }
+  ];
+
   return (
     <div>
       <Topbar />
-      <main className="page-content">
-        <div className="page-header">
-          <h1>ℹ️ About</h1>
-          <p>Learn more about Kerala Disaster Management Portal</p>
-        </div>
-        <section className="dashboard-section">
-          <div style={{ maxWidth: '900px', margin: '0 auto', lineHeight: '1.8' }}>
-            
-            <h2>Our Mission</h2>
-            <p>
-              Kerala Disaster Management Portal is built to provide real-time disaster alerts, information, and support to citizens across all 14 districts of Kerala. We aim to save lives through quick, accurate, and actionable information during emergencies.
-            </p>
+      <main className="about-page">
+        <section className="about-hero">
+          <div className="hero-content">
+            <h1>🛡️ Kerala Disaster Management System</h1>
+            <p>Empowering Citizens. Saving Lives. Building Resilience.</p>
+            <div className="hero-underline"></div>
+          </div>
+        </section>
 
-            <h2>What We Do</h2>
-            <ul style={{ fontSize: '1rem' }}>
-              <li>📡 Monitor disaster situations 24/7 from official sources (IMD, KSNDMC)</li>
-              <li>🔔 Send real-time alerts to citizens in affected areas</li>
-              <li>🗺️ Display interactive maps of risk zones and shelter locations</li>
-              <li>🆘 Enable one-tap SOS requests connected to rescue teams</li>
-              <li>📚 Provide preparedness guides and safety information</li>
-              <li>👥 Empower citizens to report disasters and help their communities</li>
-            </ul>
-
-            <h2>Our Team</h2>
-            <p>
-              We are a dedicated team of disaster management professionals, software engineers, and community advocates working to make Kerala safer.
-            </p>
-
-            <h2>Key Features</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '20px' }}>
-              <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <h4>🔔 Real-Time Alerts</h4>
-                <p>Instant notifications for disasters in your area</p>
+        <section className="about-section mission-section">
+          <div className="section-container">
+            <div className="mission-grid">
+              <div className="mission-content">
+                <h2>Our Mission</h2>
+                <p className="mission-statement">
+                  To provide real-time disaster alerts, critical information, and community support to all citizens across Kerala's 14 districts. We aim to save lives through quick, accurate, and actionable information during emergencies and disasters.
+                </p>
+                <div className="mission-highlights">
+                  <div className="highlight"><span className="highlight-icon">✓</span><span>24/7 Real-Time Monitoring</span></div>
+                  <div className="highlight"><span className="highlight-icon">✓</span><span>Community-Driven Support</span></div>
+                  <div className="highlight"><span className="highlight-icon">✓</span><span>Data-Driven Decisions</span></div>
+                  <div className="highlight"><span className="highlight-icon">✓</span><span>Inclusive & Accessible</span></div>
+                </div>
               </div>
-              <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <h4>🗺️ Risk Maps</h4>
-                <p>Live visualization of flood zones and risk areas</p>
-              </div>
-              <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <h4>⛺ Shelter Finder</h4>
-                <p>Locate nearest relief shelters with real-time capacity</p>
-              </div>
-              <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <h4>🌧️ Weather Intelligence</h4>
-                <p>Hyperlocal weather data and forecasts</p>
-              </div>
-              <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <h4>🆘 Emergency SOS</h4>
-                <p>One-tap rescue request with location sharing</p>
-              </div>
-              <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <h4>📋 Preparedness Guides</h4>
-                <p>Step-by-step disaster readiness information</p>
+              <div className="mission-visual">
+                <div className="mission-icon-box">🛡️</div>
               </div>
             </div>
+          </div>
+        </section>
 
-            <h2>Contact Us</h2>
-            <p>
-              <strong>Emergency Helpline:</strong> 1077 (KSNDMC)<br />
-              <strong>Fire:</strong> 101<br />
-              <strong>Police:</strong> 100<br />
-              <strong>Ambulance:</strong> 108
-            </p>
+        <section className="about-section stats-section">
+          <div className="section-container">
+            <h2 className="section-title">Our Impact</h2>
+            <div className="stats-grid">
+              {stats.map((stat, idx) => (
+                <div key={idx} className="stat-card">
+                  <div className="stat-icon">{stat.icon}</div>
+                  <div className="stat-number">{stat.number}</div>
+                  <div className="stat-label">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-            <h2>Follow Us</h2>
-            <p>
-              Stay connected for updates on disaster preparedness and community safety initiatives.
-            </p>
+        <section className="about-section values-section">
+          <div className="section-container">
+            <h2 className="section-title">Our Core Values</h2>
+            <div className="values-grid">
+              {coreValues.map((value, idx) => (
+                <div key={idx} className="value-card">
+                  <h3>{value.title}</h3>
+                  <p>{value.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="about-section features-section">
+          <div className="section-container">
+            <h2 className="section-title">Comprehensive Features</h2>
+            <p className="section-subtitle">Everything you need to stay safe and informed during disasters</p>
+            <div className="features-grid">
+              {features.map((feature, idx) => (
+                <div key={idx} className="feature-card">
+                  <div className="feature-icon">{feature.icon}</div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="about-section how-it-works">
+          <div className="section-container">
+            <h2 className="section-title">How It Works</h2>
+            <div className="workflow">
+              <div className="workflow-step"><div className="step-number">1</div><h4>Register</h4><p>Create your account and set your location preferences</p></div>
+              <div className="workflow-arrow">→</div>
+              <div className="workflow-step"><div className="step-number">2</div><h4>Receive Alerts</h4><p>Get real-time notifications for disasters near you</p></div>
+              <div className="workflow-arrow">→</div>
+              <div className="workflow-step"><div className="step-number">3</div><h4>Take Action</h4><p>Use our tools to find shelters, send SOS, or help others</p></div>
+              <div className="workflow-arrow">→</div>
+              <div className="workflow-step"><div className="step-number">4</div><h4>Stay Safe</h4><p>Build resilience with preparedness guides and community support</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-section tech-section">
+          <div className="section-container">
+            <h2 className="section-title">Built With Modern Technology</h2>
+            <div className="tech-stack">
+              <div className="tech-item"><h4>Frontend</h4><p>React.js, Leaflet.js, Responsive Design</p></div>
+              <div className="tech-item"><h4>Backend</h4><p>Node.js, Express, RESTful APIs</p></div>
+              <div className="tech-item"><h4>Database</h4><p>MongoDB, Real-time Data Synchronization</p></div>
+              <div className="tech-item"><h4>Infrastructure</h4><p>Cloud-hosted, 99.9% Uptime, Secure</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-section cta-section">
+          <div className="section-container">
+            <h2>Ready to Stay Safe?</h2>
+            <p>Join thousands of Keralites using our platform to stay informed and help their communities</p>
+            <button className="cta-button" onClick={() => navigate('/login')}>Get Started Now</button>
+          </div>
+        </section>
+
+        <section className="about-section contact-section">
+          <div className="section-container">
+            <h2 className="section-title">Get In Touch</h2>
+            <div className="contact-grid">
+              <div className="contact-item"><h4>🚨 Emergency</h4><p><strong>KSNDMC Helpline:</strong> 1077</p></div>
+              <div className="contact-item"><h4>🚒 Fire Services</h4><p><strong>Toll Free:</strong> 101</p></div>
+              <div className="contact-item"><h4>👮 Police</h4><p><strong>Emergency:</strong> 100</p></div>
+              <div className="contact-item"><h4>🚑 Ambulance</h4><p><strong>Medical Emergency:</strong> 108</p></div>
+            </div>
           </div>
         </section>
       </main>

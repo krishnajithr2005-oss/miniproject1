@@ -333,10 +333,10 @@ export default function Landing() {
           </div>
         </div>
         <div className="footer-links">
-          <span className="footer-link">About</span>
-          <span className="footer-link">Privacy</span>
-          <span className="footer-link">Contact</span>
-          <span className="footer-link">API</span>
+          <button className="footer-link" onClick={() => navigate('/about')}>About</button>
+          <button className="footer-link" onClick={() => alert('Privacy Policy:\n\nWe collect minimal data needed for emergency response. Your location is only shared when you submit an SOS. We do not sell or share your personal information with third parties.')}>Privacy</button>
+          <button className="footer-link" onClick={() => alert('Contact Us:\n\nEmergency Helpline: 1077\nEmail: support@keraladisaster.gov.in\nAddress: KSNDMC, Thiruvananthapuram, Kerala')}>Contact</button>
+          <button className="footer-link" onClick={() => navigate('/about')}>API</button>
         </div>
         <div className="footer-right">© 2024 Kerala State Disaster Management · Emergency: 1077</div>
       </footer>

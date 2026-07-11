@@ -7,13 +7,15 @@ const alertSchema = new mongoose.Schema({
   description: String,
   severity: String, // LOW, MEDIUM, HIGH
   type: String, // flood, landslide, coastal, dam
+  district: String,
+  eventDate: Date,
   timestamp: { type: Date, default: Date.now },
   
   // Status tracking fields
   status: { 
     type: String, 
     enum: ["pending", "verified", "published", "rejected"], 
-    default: "published" 
+    default: "pending" 
   },
   submittedBy: String, // Email or user ID
   submittedAt: Date,
@@ -21,7 +23,7 @@ const alertSchema = new mongoose.Schema({
   verifiedAt: Date,
   isPublished: { 
     type: Boolean, 
-    default: true 
+    default: false 
   }
 });
 

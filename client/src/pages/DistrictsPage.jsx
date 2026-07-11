@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Topbar from '../components/Topbar';
 import { KERALA_DISTRICTS } from '../data/districtData';
 import './DistrictsPage.css';
+import { apiUrl } from '../config/api';
 
 export default function DistrictsPage() {
   // District selection and view management
@@ -10,12 +11,49 @@ export default function DistrictsPage() {
   const [viewMode, setViewMode] = useState('dropdown'); // 'dropdown' or 'grid'
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [districts, setDistricts] = useState(KERALA_DISTRICTS);
+
+  useEffect(() => {
+    const loadDistricts = async () => {
+      try {
+        const response = await fetch(apiUrl('/api/places'));
+        if (!response.ok) throw new Error('Failed to fetch districts');
+        const places = await response.json();
+        if (places?.length) {
+          setDistricts(places.map((place) => ({
+            name: place.name,
+            riskLevel: formatRiskLevel(place.riskLevel),
+            color: place.riskColor || getRiskColor(place.riskLevel),
+            description: place.description || `${place.name} district risk assessment`
+          })));
+        }
+      } catch (error) {
+        setDistricts(KERALA_DISTRICTS);
+      }
+    };
+
+    loadDistricts();
+  }, []);
 
   const filteredDistricts = viewMode === 'grid' 
-    ? KERALA_DISTRICTS.filter(district =>
+    ? districts.filter(district =>
         district.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
+
+  const formatRiskLevel = (level = '') => {
+    const normalized = String(level).toLowerCase();
+    if (normalized === 'high') return 'High';
+    if (normalized === 'medium' || normalized === 'moderate') return 'Moderate';
+    return 'Low';
+  };
+
+  const getRiskColor = (level = '') => {
+    const normalized = String(level).toLowerCase();
+    if (normalized === 'high') return '#F44336';
+    if (normalized === 'medium' || normalized === 'moderate') return '#FFC107';
+    return '#4CAF50';
+  };
 
   const handleDistrictSelect = (districtName) => {
     if (districtName === 'view-all') {
@@ -50,7 +88,7 @@ export default function DistrictsPage() {
                 onChange={(e) => handleDistrictSelect(e.target.value)}
               >
                 <option value="">-- Select a District --</option>
-                {KERALA_DISTRICTS.map((district) => (
+                {districts.map((district) => (
                   <option key={district.name} value={district.name}>
                     {district.name}
                   </option>
@@ -156,7 +194,7 @@ export default function DistrictsPage() {
             )}
           </div>
           <p style={{ marginTop: '0', color: '#888', fontSize: '0.9rem' }}>
-            Showing {filteredDistricts.length} of {KERALA_DISTRICTS.length} districts
+            Showing {filteredDistricts.length} of {districts.length} districts
           </p>
         </section>
 

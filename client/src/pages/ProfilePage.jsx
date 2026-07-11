@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Profile() {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
-    name: 'Rajesh Kumar',
-    email: 'rajesh@example.com',
-    phone: '+91-9876543210',
-    district: 'Wayanad',
-    address: '123 Main Street, Wayanad, Kerala',
-    emergencyContact: 'Priya Kumar',
-    emergencyPhone: '+91-9123456789',
+    name: '',
+    email: '',
+    phone: '',
+    district: '',
+    address: '',
+    emergencyContact: '',
+    emergencyPhone: '',
   });
-
   const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+        email: user.email || '',
+        phone: user.phone || '',
+        district: user.district || '',
+        address: user.profile?.address || '',
+        emergencyContact: user.profile?.emergencyContact || '',
+        emergencyPhone: user.profile?.emergencyPhone || '',
+      });
+    }
+  }, [user]);
+
+  // Force re-render when user changes
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   const handleChange = (e) => {
     setFormData({

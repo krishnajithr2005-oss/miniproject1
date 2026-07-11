@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../config/api';
 import '../styles/shared.css';
 import '../styles/Login.css';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login, signup } = useAuth();
   const [activeTab, setActiveTab] = useState('login');
   const [rememberMe, setRememberMe] = useState(false);
   const [loadingLogin, setLoadingLogin] = useState(false);
@@ -90,19 +94,45 @@ export default function Login() {
   const handleLogin = async () => {
     if (!validateLoginForm()) return;
     setLoadingLogin(true);
-    setTimeout(() => {
+
+    try {
+      const response = await axios.post(apiUrl('/api/auth/login'), {
+        email: loginForm.email.trim(),
+        password: loginForm.password
+      });
+      const { token, user } = response.data;
+      login(user, token);
+      navigate(user?.role === 'admin' ? '/admin' : '/dashboard');
+    } catch (error) {
+      const message = error?.response?.data?.error || 'Invalid credentials. Please try again.';
+      setErrors({ submit: message });
+    } finally {
       setLoadingLogin(false);
-      navigate('/dashboard');
-    }, 1500);
+    }
   };
 
   const handleSignup = async () => {
     if (!validateSignupForm()) return;
     setLoadingSignup(true);
-    setTimeout(() => {
-      setLoadingSignup(false);
+
+    try {
+      const response = await axios.post(apiUrl('/api/auth/register'), {
+        firstName: signupForm.firstName.trim(),
+        lastName: signupForm.lastName.trim(),
+        phone: signupForm.phone.trim(),
+        email: signupForm.email.trim(),
+        district: signupForm.district,
+        password: signupForm.password
+      });
+      const { token, user } = response.data;
+      signup(user, token);
       navigate('/dashboard');
-    }, 1500);
+    } catch (error) {
+      const message = error?.response?.data?.error || 'Could not create account. Please try again.';
+      setErrors({ submit: message });
+    } finally {
+      setLoadingSignup(false);
+    }
   };
 
   const switchTab = (tab) => {
@@ -187,6 +217,7 @@ export default function Login() {
           <div className={`form-panel ${activeTab === 'login' ? 'active' : ''}`}>
             <div className="form-title">Welcome back</div>
             <div className="form-sub">Sign in to your disaster management account</div>
+            {errors.submit && <div className="form-error" style={{ marginBottom: '12px' }}>{errors.submit}</div>}
             
             <div className="form-group">
               <label className="form-label">Email / Phone Number</label>
@@ -253,6 +284,7 @@ export default function Login() {
           <div className={`form-panel ${activeTab === 'signup' ? 'active' : ''}`}>
             <div className="form-title">Create account</div>
             <div className="form-sub">Register to receive alerts and access all features</div>
+            {errors.submit && <div className="form-error" style={{ marginBottom: '12px' }}>{errors.submit}</div>}
             
             <div className="form-row">
               <div className="form-group">

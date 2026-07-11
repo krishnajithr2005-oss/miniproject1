@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SOSModal.css";
+import { apiUrl } from "../config/api";
 
 const SOSModal = ({ isOpen, onClose, selectedPlace, placeData }) => {
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -35,8 +36,7 @@ const SOSModal = ({ isOpen, onClose, selectedPlace, placeData }) => {
     // Send SOS to server which will use DB alerts or fallback to placeData
     (async () => {
       try {
-        const API_BASE = process.env.REACT_APP_API || "http://localhost:5000";
-        const resp = await fetch(`${API_BASE}/api/sos`, {
+        const resp = await fetch(apiUrl("/api/sos"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ place: selectedPlace, phone: selectedHelpline || "8078518247", placeData }),

@@ -6,23 +6,34 @@
 }
 
 .district-dropdown-btn {
-  background: transparent;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 8px 14px;
-  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  padding: 12px 20px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 800;
+  font-size: 1rem;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 20px rgba(102, 126, 234, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
 }
 
 .district-dropdown-btn:hover {
-  border-color: rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 50%, #f5576c 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 8px 30px rgba(102, 126, 234, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .district-dropdown-btn:active {

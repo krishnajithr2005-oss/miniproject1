@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { apiUrl } from '../config/api';
 
 const DUMMY_ALERTS = [
   {
@@ -46,8 +47,15 @@ export default function AlertList({ limit = null }) {
 
   const fetchAlerts = async () => {
     try {
-      const response = await axios.get('/api/alerts');
-      setAlerts(response.data);
+      const response = await axios.get(apiUrl('/api/alerts'));
+      setAlerts((response.data || []).map((alert) => ({
+        id: alert._id,
+        type: alert.type || alert.title || 'Alert',
+        location: alert.placeName || 'Kerala',
+        severity: (alert.severity || 'medium').toLowerCase(),
+        time: alert.timestamp ? new Date(alert.timestamp).toLocaleString() : 'Recently',
+        message: alert.description || alert.title || 'No details available',
+      })));
     } catch (error) {
       console.log('Using dummy data for alerts');
       setAlerts(DUMMY_ALERTS);

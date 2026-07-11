@@ -13,6 +13,7 @@ export default function Sidebar() {
     { path: '/shelters', label: 'Shelters', icon: '🏢' },
     { path: '/weather', label: 'Weather', icon: '🌦️' },
     { path: '/helplines', label: 'Helplines', icon: '📞' },
+    { path: '/volunteer', label: 'Volunteer', icon: '🤝' },
     { path: '/sos', label: 'SOS', icon: '🚨' },
     { path: '/profile', label: 'Profile', icon: '👤' },
   ];

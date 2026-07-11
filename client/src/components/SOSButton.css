@@ -6,8 +6,8 @@
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  border: none;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border: 3px solid rgba(255, 255, 255, 0.4);
   color: white;
   font-weight: 800;
   font-size: 13px;
@@ -17,14 +17,14 @@
   justify-content: center;
   cursor: pointer;
   z-index: 9999;
-  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.5);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 4px;
 }
 
 .sos-floating-btn:not(:disabled):hover {
   transform: scale(1.1) translateY(-4px);
-  box-shadow: 0 12px 40px rgba(239, 68, 68, 0.5);
+  box-shadow: 0 12px 40px rgba(220, 38, 38, 0.7);
 }
 
 .sos-floating-btn:not(:disabled):active {

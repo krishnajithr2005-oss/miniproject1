@@ -1,265 +1,411 @@
 /* District Detail Page Styles */
 
 .district-detail {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: calc(100vh - 80px);
-  padding: 40px 20px;
+  padding: 30px 24px;
+  background: linear-gradient(180deg, #f2f5ff 0%, #eef3ff 45%, #fdfdff 100%);
 }
 
-.district-header {
+.loading-state,
+.empty-state {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 100px);
+}
+
+.status-card,
+.loading-card {
   background: white;
-  border-radius: 15px;
-  padding: 40px 30px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(16, 24, 40, 0.12);
+  text-align: center;
+  width: min(600px, 90vw);
+}
+
+.primary-button {
+  margin-top: 24px;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 35px rgba(79, 70, 229, 0.18);
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.hero-copy,
+.hero-side {
+  background: white;
+  border-radius: 32px;
+  padding: 32px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+}
+
+.hero-copy {
+  display: grid;
+  gap: 24px;
 }
 
 .back-btn {
-  background: #667eea;
+  background: #1d4ed8;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 16px;
+  padding: 12px 18px;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  align-self: flex-start;
-  margin-top: 0;
+  font-weight: 700;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  width: fit-content;
 }
 
 .back-btn:hover {
-  background: #5568d3;
-  transform: translateX(-2px);
+  background: #2563eb;
+  transform: translateY(-2px);
 }
 
-.header-content {
-  flex: 1;
-  min-width: 300px;
-}
-
-.district-title {
-  font-size: 2.5rem;
-  margin: 0 0 10px 0;
-  color: #1a1a1a;
-}
-
-.district-desc {
-  font-size: 1.1rem;
-  color: #666;
-  margin: 0 0 15px 0;
-}
-
-.risk-badge {
-  display: inline-block;
-  padding: 8px 16px;
-  border: 2px solid;
-  border-radius: 20px;
-  font-size: 0.9rem;
-}
-
-.district-section {
-  background: white;
-  border-radius: 15px;
-  padding: 30px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.section-heading {
-  font-size: 1.5rem;
-  margin: 0 0 25px 0;
-  color: #1a1a1a;
-  display: flex;
+.hero-tag {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #4338ca;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
 }
 
-/* Map Container */
-.map-container {
-  width: 100%;
-  height: 500px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid #eee;
+.hero-title h1 {
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  margin: 0;
+  line-height: 1.02;
+  color: #111827;
 }
 
-/* Alerts Grid */
-.alerts-grid {
+.hero-title p {
+  max-width: 72ch;
+  color: #475569;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.hero-overview {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.overview-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 24px;
+  display: grid;
+  gap: 12px;
+}
+
+.overview-title {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.overview-card strong {
+  font-size: 2rem;
+  color: #111827;
+}
+
+.detail-text {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.hero-side {
+  display: grid;
   gap: 20px;
 }
 
-.alert-card {
-  border-left: 5px solid;
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+.side-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 24px;
 }
 
-.alert-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.alert-header {
+.side-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  gap: 10px;
+  margin-bottom: 18px;
 }
 
-.alert-type {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #1a1a1a;
-  flex: 1;
-}
-
-.severity-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.alert-message {
-  margin: 0;
-  color: #555;
+.side-card-header span {
   font-size: 0.95rem;
-  line-height: 1.5;
+  font-weight: 700;
+  color: #111827;
 }
 
-/* History List */
-.history-list {
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.risk-list {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.history-card {
-  border-left: 5px solid;
-  background: #f9f9f9;
-  padding: 20px;
+.layer-pill {
+  background: rgba(99, 102, 241, 0.12);
+  color: #4338ca;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.risk-chart {
+  margin-top: 18px;
+}
+
+.chart-label {
+  display: block;
+  color: #64748b;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.risk-bar {
+  position: relative;
+  height: 16px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.risk-pointer {
+  position: absolute;
+  top: -4px;
+  width: 16px;
+  height: 24px;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  background: #111827;
+  box-shadow: 0 4px 14px rgba(17, 24, 39, 0.2);
 }
 
-.history-card:hover {
-  transform: translateX(5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.contact-list {
+  display: grid;
+  gap: 14px;
 }
 
-.history-header {
+.contact-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 16px 18px;
+}
+
+.contact-row strong {
+  color: #111827;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 32px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.05);
+  padding: 28px;
+}
+
+.card-strong {
+  padding: 32px;
+}
+
+.section-heading-card {
+  font-size: 1.45rem;
+  margin-bottom: 22px;
+  color: #111827;
+}
+
+.alerts-grid,
+.resources-grid,
+.modern-shelters,
+.history-list {
+  display: grid;
+  gap: 18px;
+}
+
+.alert-card.modern-alert,
+.resource-card,
+.modern-shelter-card,
+.modern-history-card {
+  border-radius: 24px;
+  padding: 22px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.alert-card.modern-alert {
+  display: grid;
+  gap: 16px;
+}
+
+.alert-header,
+.history-header,
+.shelter-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: 16px;
 }
 
-.disaster-type {
+.alert-header h4,
+.resource-card h4,
+.modern-shelter-card h4,
+.modern-history-card h4 {
   margin: 0;
   font-size: 1.15rem;
-  color: #1a1a1a;
-  font-weight: 600;
+  color: #111827;
 }
 
-.disaster-date {
-  margin: 5px 0 0 0;
-  color: #888;
-  font-size: 0.9rem;
+.alert-message,
+.resource-card p,
+.modern-shelter-card p,
+.modern-history-card p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.75;
 }
 
-.disaster-description {
-  margin: 0 0 15px 0;
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.5;
+.severity-badge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.resource-card {
+  display: grid;
+  gap: 14px;
+}
+
+.resource-icon {
+  font-size: 2rem;
+}
+
+.map-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-container,
+.map-container.modern-map {
+  width: 100%;
+  min-height: 340px;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.modern-shelters {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.modern-history-list {
+  grid-template-columns: 1fr;
+}
+
+.modern-history-card {
+  display: grid;
+  gap: 18px;
 }
 
 .disaster-stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
 }
 
 .stat-item {
   background: white;
-  padding: 12px 15px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 16px;
 }
 
-.stat-label {
-  font-size: 0.85rem;
-  color: #888;
-  font-weight: 600;
-}
-
-.stat-value {
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-/* Stats Grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.stat-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-}
-
-.stat-icon {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.stat-card h4 {
-  margin: 0 0 10px 0;
+.stat-item span {
+  display: block;
+  color: #64748b;
+  margin-bottom: 6px;
   font-size: 0.95rem;
-  opacity: 0.9;
 }
 
-.stat-number {
-  margin: 0;
-  font-size: 2rem;
+.stat-item strong,
+.stat-value {
+  font-size: 1.25rem;
+  color: #111827;
+}
+
+.capacity-badge {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
   font-weight: 700;
+  border-radius: 999px;
+  padding: 10px 14px;
 }
 
-/* Recommendations Section */
+.empty-panel {
+  padding: 28px;
+  border-radius: 24px;
+  background: #f8fafc;
+  color: #475569;
+  border: 1px dashed #cbd5e1;
+}
+
 .recommendations-section {
-  background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
-  border: 2px solid #ffd699;
+  background: linear-gradient(135deg, #fff9f0 0%, #ffe8d6 100%);
+  border: 2px solid rgba(255, 183, 77, 0.3);
 }
 
 .recommendations {
   background: white;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .recommendations ul {
@@ -269,11 +415,17 @@
 }
 
 .recommendations li {
-  padding: 12px 0;
+  padding: 20px 0;
   color: #333;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  border-bottom: 1px solid #eee;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.recommendations li:hover {
+  padding-left: 15px;
+  background: linear-gradient(135deg, #fff9f0 0%, transparent 100%);
 }
 
 .recommendations li:last-child {
@@ -281,83 +433,85 @@
 }
 
 .recommendations strong {
-  color: #1a1a1a;
-  font-weight: 600;
+  color: #667eea;
+  font-weight: 800;
 }
 
-/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-panel,
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
-  .district-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .hero-copy,
+  .hero-side,
+  .card,
+  .status-card,
+  .loading-card {
+    padding: 22px;
   }
 
-  .district-title {
-    font-size: 2rem;
+  .hero-tag,
+  .back-btn,
+  .status-card,
+  .loading-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title h1 {
+    font-size: 2.5rem;
   }
 
-  .district-section {
-    padding: 20px;
-  }
-
-  .section-heading {
-    font-size: 1.2rem;
-  }
-
-  .map-container {
-    height: 350px;
+  .map-container,
+  .map-container.modern-map {
+    min-height: 300px;
   }
 
   .alerts-grid,
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .history-header {
-    display: block;
-  }
-
-  .severity-badge {
-    display: block;
-    margin-top: 10px;
-    width: fit-content;
-  }
-
+  .resources-grid,
+  .modern-shelters,
+  .history-list,
   .disaster-stats {
     grid-template-columns: 1fr;
+  }
+
+  .recommendations li {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .district-header {
-    padding: 20px;
+  .district-detail {
+    padding: 20px 16px;
   }
 
-  .district-title {
-    font-size: 1.5rem;
+  .hero-copy,
+  .hero-side,
+  .card,
+  .status-card,
+  .loading-card {
+    padding: 18px;
   }
 
-  .district-section {
-    padding: 15px;
+  .hero-tag,
+  .back-btn {
+    width: 100%;
   }
 
-  .section-heading {
-    font-size: 1.1rem;
-  }
-
-  .map-container {
-    height: 250px;
-  }
-
-  .stat-card {
-    padding: 15px;
-  }
-
-  .stat-icon {
+  .hero-title h1 {
     font-size: 2rem;
   }
 
-  .stat-number {
-    font-size: 1.5rem;
+  .hero-title p {
+    font-size: 1rem;
+  }
+
+  .map-container,
+  .map-container.modern-map {
+    min-height: 240px;
   }
 }

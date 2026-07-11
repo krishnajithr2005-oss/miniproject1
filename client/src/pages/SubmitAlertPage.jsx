@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import Topbar from '../components/Topbar';
 import '../styles/shared.css';
 import './SubmitAlertPage.css';
+import { apiUrl } from '../config/api';
 
 const KERALA_DISTRICTS = [
   'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha',
@@ -104,7 +105,7 @@ export default function SubmitAlertPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/alerts/submit', {
+      const response = await fetch(apiUrl('/api/alerts/submit'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

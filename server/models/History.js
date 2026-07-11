@@ -9,6 +9,7 @@ const historySchema = new mongoose.Schema({
   description: String,
   affectedArea: String,
   casualties: Number,
+  displaced: { type: Number, default: 0 },
   damageAssessment: String,
   createdAt: { type: Date, default: Date.now }
 });

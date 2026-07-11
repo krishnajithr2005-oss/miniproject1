@@ -30,11 +30,12 @@
 }
 
 .nav.scrolled .nav-link {
-  color: var(--lime);
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .nav.scrolled .nav-link:hover {
-  color: #fff;
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
 }
 
 .nav-brand {
@@ -79,43 +80,65 @@
 }
 
 .nav-link {
-  font-size: 13.5px;
-  color: var(--ink2);
+  font-size: 13px;
+  color: white;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
+  font-weight: 600;
+  transition: all 0.3s ease;
   cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 10px 18px;
+  border-radius: 10px;
   font-family: inherit;
+  box-shadow: 
+    0 4px 15px rgba(102, 126, 234, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
 }
 
 .nav-link:hover {
-  color: var(--forest);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 6px 20px rgba(102, 126, 234, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .nav-cta {
-  padding: 9px 22px;
-  border-radius: 25px;
-  background: var(--forest);
-  color: #fff;
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ff6b6b 100%);
+  color: white;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  border: none;
-  transition: all 0.2s;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
   font-family: "DM Sans", sans-serif;
+  box-shadow: 
+    0 4px 20px rgba(245, 87, 108, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
 }
 
 .nav-cta:hover {
-  background: var(--forest2);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #ff6b6b 0%, #f5576c 50%, #f093fb 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 6px 25px rgba(245, 87, 108, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .nav.scrolled .nav-cta {
-  background: var(--mint);
-  color: var(--forest);
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #ff6347 100%);
+  color: white;
 }
 
 /* ── HERO SECTION ────────────────────────────────────── */
@@ -792,11 +815,12 @@
 
 /* ── FOOTER ──────────────────────────────────────────── */
 .footer {
-  background: var(--ink);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   padding: 40px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-top: 3px solid #00d4aa;
 }
 
 .footer-brand {
@@ -809,25 +833,28 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: var(--mint);
+  background: #00d4aa;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Syne", sans-serif;
   font-weight: 800;
   font-size: 12px;
-  color: var(--forest);
+  color: #1a1a2e;
+  box-shadow: 0 0 10px rgba(0, 212, 170, 0.5);
 }
 
 .footer-name {
-  color: #fff;
+  color: #ffffff;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .footer-sub {
-  color: rgba(255, 255, 255, 0.4);
+  color: #a0a0a0;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .footer-links {
@@ -836,20 +863,32 @@
 }
 
 .footer-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
   font-size: 13px;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: all 0.2s;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
 }
 
 .footer-link:hover {
-  color: var(--mint);
+  color: #00d4aa;
+  transform: translateY(-2px);
+}
+
+.footer-link:focus {
+  outline: none;
 }
 
 .footer-right {
-  color: rgba(255, 255, 255, 0.4);
+  color: #b0b0b0;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .modal-overlay {

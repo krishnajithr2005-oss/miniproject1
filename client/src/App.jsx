@@ -13,7 +13,9 @@ import WeatherPage from './pages/WeatherPage';
 import SheltersPage from './pages/SheltersPage';
 import SOSPage from './pages/SOSPage';
 import HelplinesPage from './pages/HelplinesPage';
+import VolunteerPage from './pages/VolunteerPage';
 import AboutPage from './pages/AboutPage';
+import AdminDashboard from './admin/AdminDashboard';
 import ProfilePage from './pages/ProfilePage';
 
 function App() {
@@ -33,7 +35,9 @@ function App() {
           <Route path="/shelters" element={<SheltersPage />} />
           <Route path="/sos" element={<SOSPage />} />
           <Route path="/helplines" element={<HelplinesPage />} />
+          <Route path="/volunteer" element={<VolunteerPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

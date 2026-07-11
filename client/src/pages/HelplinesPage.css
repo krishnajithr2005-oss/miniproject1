@@ -1,0 +1,421 @@
+/* Helplines Page */
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Hero Section */
+.helplines-hero {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.helplines-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 20s ease-in-out infinite;
+}
+
+.helplines-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -50%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float-reverse 15s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-40px) translateX(20px); }
+  75% { transform: translateY(-20px) translateX(10px); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(20px) translateX(-10px); }
+  50% { transform: translateY(40px) translateX(-20px); }
+  75% { transform: translateY(20px) translateX(-10px); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  animation: slideInDown 0.8s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.helplines-hero h1 {
+  font-size: 3rem;
+  margin: 0 0 15px 0;
+  font-weight: 800;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
+}
+
+.helplines-hero p {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+/* Tab Navigation */
+.helplines-tabs {
+  background: white;
+  padding: 20px 30px;
+  display: flex;
+  gap: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  border: none;
+  background: #f5f5f5;
+  color: #666;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.tab-btn:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+}
+
+/* Helplines Section */
+.helplines-section {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.helplines-intro {
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  font-size: 1.05rem;
+  color: #e65100;
+  font-weight: 500;
+}
+
+.helpline-category {
+  margin-bottom: 50px;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f093fb;
+  font-weight: 700;
+}
+
+.helpline-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.helpline-card-large {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #f093fb;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.helpline-card-large:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  border-left-color: #f5576c;
+}
+
+.helpline-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.helpline-card-large h4 {
+  margin: 0 0 8px 0;
+  color: #1a1a1a;
+  font-size: 1.1rem;
+}
+
+.helpline-number {
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f5576c;
+  font-family: 'Courier New', monospace;
+}
+
+.call-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.95rem;
+}
+
+.call-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 87, 108, 0.4);
+}
+
+/* Volunteer Section */
+.volunteer-section {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.volunteer-intro {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
+.volunteer-intro h2 {
+  font-size: 2rem;
+  color: #1a1a1a;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+}
+
+.volunteer-intro p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+}
+
+.volunteer-benefits h3 {
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin: 0 0 25px 0;
+  font-weight: 700;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.benefit-card {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.2);
+}
+
+.benefit-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.3);
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.benefit-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.benefit-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+/* CTA Section */
+.volunteer-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.btn-register-volunteer {
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.3);
+}
+
+.btn-register-volunteer:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(245, 87, 108, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .helplines-hero h1 {
+    font-size: 2rem;
+  }
+
+  .helplines-hero p {
+    font-size: 1rem;
+  }
+
+  .helplines-tabs {
+    padding: 15px 10px;
+    gap: 10px;
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .helplines-section {
+    padding: 20px 15px;
+  }
+
+  .helpline-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .volunteer-intro {
+    padding: 20px;
+  }
+
+  .volunteer-intro h2 {
+    font-size: 1.5rem;
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+  }
+
+  .benefit-card {
+    padding: 16px;
+  }
+
+  .benefit-card h4 {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .helplines-hero {
+    padding: 50px 15px;
+  }
+
+  .helplines-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .helplines-hero p {
+    font-size: 0.9rem;
+  }
+
+  .helplines-intro {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+
+  .category-title {
+    font-size: 1.2rem;
+  }
+
+  .helpline-card-large {
+    padding: 16px;
+  }
+
+  .helpline-icon {
+    font-size: 2rem;
+  }
+
+  .helpline-number {
+    font-size: 1.1rem;
+  }
+
+  .volunteer-intro {
+    padding: 16px;
+  }
+
+  .volunteer-intro h2 {
+    font-size: 1.3rem;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-register-volunteer {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+}

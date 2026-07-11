@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AlertSubmissionModal.css';
+import { apiUrl } from '../config/api';
 
 export default function AlertSubmissionModal({ isOpen, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
@@ -69,7 +70,7 @@ export default function AlertSubmissionModal({ isOpen, onClose, onSuccess }) {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/alerts/submit', {
+      const response = await fetch(apiUrl('/api/alerts/submit'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -87,7 +88,7 @@ export default function AlertSubmissionModal({ isOpen, onClose, onSuccess }) {
         throw new Error('Failed to submit alert');
       }
 
-      const data = await response.json();
+      await response.json();
       setSubmitted(true);
       
       setTimeout(() => {

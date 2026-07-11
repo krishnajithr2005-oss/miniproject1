@@ -6,6 +6,7 @@ import Topbar from '../components/Topbar';
 import AlertSubmissionModal from '../components/AlertSubmissionModal';
 import AlertSignupModal from '../components/AlertSignupModal';
 import AlertList from '../components/AlertList';
+import { apiUrl } from '../config/api';
 
 export default function AlertsPage() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function AlertsPage() {
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const response = await fetch('/api/alerts');
+        const response = await fetch(apiUrl('/api/alerts'));
         const data = await response.json();
         setAlerts(data || []);
       } catch (error) {
